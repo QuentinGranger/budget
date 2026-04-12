@@ -40,9 +40,11 @@ export async function POST(req: NextRequest) {
     });
 
     const plainEmail = decrypt(user.email);
-    sendResetPasswordEmail(plainEmail, resetToken).catch((err) =>
-      safeError('Failed to send reset email', err)
-    );
+    try {
+      await sendResetPasswordEmail(plainEmail, resetToken);
+    } catch (err) {
+      safeError('Failed to send reset email', err);
+    }
 
     return NextResponse.json(successMsg);
   } catch (err) {

@@ -53,10 +53,12 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Send verification email (non-blocking)
-    sendVerificationEmail(normalizedEmail, verifyToken).catch((err) =>
-      safeError('Failed to send verification email', err)
-    );
+    // Send verification email (must await on serverless platforms)
+    try {
+      await sendVerificationEmail(normalizedEmail, verifyToken);
+    } catch (err) {
+      safeError('Failed to send verification email', err);
+    }
 
     return NextResponse.json({ ok: true, message: neutralMsg });
   } catch (err) {
