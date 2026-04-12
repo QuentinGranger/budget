@@ -1,8 +1,14 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-const fromEmail = process.env.FROM_EMAIL || 'CapBudget <onboarding@resend.dev>';
-const appUrl = process.env.APP_URL || 'http://localhost:3000';
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY);
+}
+function getFromEmail() {
+  return process.env.FROM_EMAIL || 'CapBudget <noreply@capbudget.app>';
+}
+function getAppUrl() {
+  return process.env.APP_URL || 'http://localhost:3000';
+}
 
 function luxuryWrapper(content: string): string {
   return `
@@ -28,7 +34,7 @@ function luxuryWrapper(content: string): string {
 }
 
 export async function sendVerificationEmail(email: string, token: string) {
-  const verifyUrl = `${appUrl}/verify-email?token=${token}`;
+  const verifyUrl = `${getAppUrl()}/verify-email?token=${token}`;
 
   const html = luxuryWrapper(`
     <h2 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#f0f0f5;">Bienvenue sur CapBudget</h2>
@@ -41,8 +47,8 @@ export async function sendVerificationEmail(email: string, token: string) {
     <p style="margin-top:24px;font-size:12px;color:#6a6a82;">Ce lien expire dans 24 heures.</p>
   `);
 
-  await resend.emails.send({
-    from: fromEmail,
+  await getResend().emails.send({
+    from: getFromEmail(),
     to: email,
     subject: 'Verifiez votre email — CapBudget',
     html,
@@ -50,7 +56,7 @@ export async function sendVerificationEmail(email: string, token: string) {
 }
 
 export async function sendResetPasswordEmail(email: string, token: string) {
-  const resetUrl = `${appUrl}/reset-password?token=${token}`;
+  const resetUrl = `${getAppUrl()}/reset-password?token=${token}`;
 
   const html = luxuryWrapper(`
     <h2 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#f0f0f5;">Reinitialisation de mot de passe</h2>
@@ -63,8 +69,8 @@ export async function sendResetPasswordEmail(email: string, token: string) {
     <p style="margin-top:24px;font-size:12px;color:#6a6a82;">Ce lien expire dans 1 heure. Si vous n'avez pas fait cette demande, ignorez cet email.</p>
   `);
 
-  await resend.emails.send({
-    from: fromEmail,
+  await getResend().emails.send({
+    from: getFromEmail(),
     to: email,
     subject: 'Reinitialisation de mot de passe — CapBudget',
     html,
