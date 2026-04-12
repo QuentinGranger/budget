@@ -6,10 +6,12 @@ import crypto from 'crypto';
 
 // ---- Constants ----
 
-if (!process.env.JWT_SECRET) {
-  throw new Error('[SECURITY] JWT_SECRET environment variable is required');
+function getJwtSecret(): Uint8Array {
+  if (!process.env.JWT_SECRET) {
+    throw new Error('[SECURITY] JWT_SECRET environment variable is required');
+  }
+  return new TextEncoder().encode(process.env.JWT_SECRET);
 }
-const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 
 export const COOKIE_NAME = 'capbudget-session';
 const SESSION_DURATION = 60 * 60 * 24 * 7; // 7 days
@@ -57,12 +59,12 @@ export async function signSessionToken(userId: string, tokenVersion: number = 0,
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
     .setExpirationTime(`${SESSION_DURATION}s`)
-    .sign(JWT_SECRET);
+    .sign(getJwtSecret());
 }
 
 export async function verifySessionToken(token: string): Promise<{ userId: string; tokenVersion: number; fingerprint: string } | null> {
   try {
-    const { payload } = await jwtVerify(token, JWT_SECRET);
+    const { payload } = await jwtVerify(token, getJwtSecret());
     return {
       userId: payload.userId as string,
       tokenVersion: (payload.tokenVersion as number) ?? 0,
@@ -80,7 +82,7 @@ export async function signEmailVerifyToken(email: string): Promise<string> {
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
     .setExpirationTime('24h')
-    .sign(JWT_SECRET);
+    .sign(getJwtSecret());
 }
 
 export async function signResetToken(userId: string): Promise<string> {
@@ -88,12 +90,12 @@ export async function signResetToken(userId: string): Promise<string> {
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
     .setExpirationTime('1h')
-    .sign(JWT_SECRET);
+    .sign(getJwtSecret());
 }
 
 export async function verifyPurposeToken(token: string, purpose: string): Promise<string | null> {
   try {
-    const { payload } = await jwtVerify(token, JWT_SECRET);
+    const { payload } = await jwtVerify(token, getJwtSecret());
     if (payload.purpose !== purpose) return null;
     if (purpose === 'email-verify') return payload.email as string;
     if (purpose === 'reset') return payload.userId as string;
