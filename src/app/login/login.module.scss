@@ -1,0 +1,193 @@
+@use '../../styles/variables' as *;
+
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: $bg-primary;
+  background-image: $gradient-carbon;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at 30% 20%, rgba($accent-gold, 0.04) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba($accent-gold, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+  }
+}
+
+.card {
+  width: 100%;
+  max-width: 440px;
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-xl;
+  padding: 48px 36px;
+  box-shadow: $shadow-elevated;
+  position: relative;
+  z-index: 1;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: $radius-xl;
+    padding: 1px;
+    background: linear-gradient(180deg, rgba($accent-gold, 0.15), transparent 60%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 36px;
+
+  .blason {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 16px;
+    filter: drop-shadow(0 4px 16px rgba($accent-gold, 0.3));
+  }
+
+  .logoText {
+    display: block;
+    height: 32px;
+    margin: 0 auto 12px;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    font-family: 'Playfair Display', Georgia, serif;
+    @include gold-text;
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-size: 13px;
+    color: $text-muted;
+    letter-spacing: 0.04em;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+
+  label {
+    font-size: 12px;
+    font-weight: 600;
+    color: $text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  input {
+    padding: 12px 16px;
+    background: $bg-input;
+    border: 1px solid $border-color;
+    border-radius: $radius-sm;
+    color: $text-primary;
+    font-size: 14px;
+    transition: all $transition-normal;
+
+    &:focus {
+      outline: none;
+      border-color: rgba($accent-gold, 0.5);
+      box-shadow: 0 0 0 3px rgba($accent-gold, 0.08), 0 0 20px rgba($accent-gold, 0.05);
+    }
+
+    &::placeholder {
+      color: $text-muted;
+    }
+  }
+}
+
+.submitBtn {
+  padding: 14px;
+  background: $gradient-gold;
+  color: $bg-primary;
+  border: none;
+  border-radius: $radius-sm;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: all $transition-normal;
+  margin-top: 8px;
+  box-shadow: 0 4px 16px rgba($accent-gold, 0.25);
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.1), transparent);
+    pointer-events: none;
+  }
+
+  &:hover {
+    box-shadow: 0 6px 24px rgba($accent-gold, 0.35);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+.error {
+  padding: 12px 16px;
+  background: rgba($color-danger, 0.08);
+  border: 1px solid rgba($color-danger, 0.2);
+  border-radius: $radius-sm;
+  color: $color-danger;
+  font-size: 13px;
+  text-align: center;
+}
+
+.links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+
+  a, button {
+    color: $text-muted;
+    transition: color $transition-fast;
+    &:hover { color: $accent-gold; }
+  }
+}
+
+.totpField {
+  margin-top: 8px;
+}

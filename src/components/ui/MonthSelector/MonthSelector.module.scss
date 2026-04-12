@@ -1,0 +1,52 @@
+@use '../../../styles/variables' as *;
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid $border-color;
+  border-radius: $radius-sm;
+  color: $text-muted;
+  transition: all $transition-normal;
+
+  &:hover {
+    border-color: $border-color-light;
+    color: $accent-gold;
+    background: rgba($accent-gold, 0.04);
+  }
+}
+
+.label {
+  font-size: 15px;
+  font-weight: 600;
+  color: $text-primary;
+  min-width: 180px;
+  text-align: center;
+  text-transform: capitalize;
+  font-family: 'Playfair Display', Georgia, serif;
+  letter-spacing: 0.02em;
+}
+
+.today {
+  font-size: 11px;
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid $border-color;
+  border-radius: $radius-sm;
+  color: $text-muted;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: all $transition-fast;
+
+  &:hover { border-color: rgba($accent-gold, 0.4); color: $accent-gold; }
+}

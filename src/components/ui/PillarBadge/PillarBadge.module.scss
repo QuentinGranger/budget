@@ -1,0 +1,32 @@
+@use '../../../styles/variables' as *;
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 1px solid transparent;
+}
+
+.needs {
+  background: rgba($color-needs, 0.08);
+  color: $color-needs;
+  border-color: rgba($color-needs, 0.2);
+}
+
+.wants {
+  background: rgba($color-wants, 0.08);
+  color: $color-wants;
+  border-color: rgba($color-wants, 0.2);
+}
+
+.savings {
+  background: rgba($color-savings, 0.08);
+  color: $color-savings;
+  border-color: rgba($color-savings, 0.2);
+}

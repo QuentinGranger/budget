@@ -1,0 +1,211 @@
+@use '../../styles/variables' as *;
+
+// ── Overlay (mobile only) ──
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 149;
+}
+
+.overlayVisible { display: block; }
+
+// ── Sidebar ──
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: $sidebar-width;
+  height: 100vh;
+  background: $gradient-sidebar;
+  border-right: 1px solid $border-color;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  z-index: 150;
+  overflow-y: auto;
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, rgba($accent-gold, 0.15), transparent);
+    pointer-events: none;
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 28px 24px 24px;
+  margin-bottom: 8px;
+
+  .blason {
+    width: 44px;
+    height: 44px;
+    filter: drop-shadow(0 2px 8px rgba($accent-gold, 0.3));
+  }
+
+  .logoText {
+    height: 26px;
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.5));
+  }
+}
+
+.divider {
+  height: 1px;
+  margin: 0 20px 16px;
+  background: linear-gradient(90deg, transparent, $border-color-light, transparent);
+}
+
+.nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 14px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 14px;
+  border-radius: $radius-sm;
+  color: $text-secondary;
+  font-size: 13.5px;
+  font-weight: 500;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: all $transition-normal;
+  position: relative;
+
+  &:hover {
+    background: rgba($accent-gold, 0.06);
+    color: $text-primary;
+    text-decoration: none;
+  }
+}
+
+.active {
+  background: rgba($accent-gold, 0.08);
+  color: $accent-gold;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 20px;
+    background: $gradient-gold;
+    border-radius: 0 3px 3px 0;
+    box-shadow: 0 0 8px rgba($accent-gold, 0.4);
+  }
+
+  &:hover {
+    background: rgba($accent-gold, 0.12);
+    color: $accent-gold-light;
+  }
+}
+
+.sectionLabel {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: $text-muted;
+  padding: 20px 14px 8px;
+}
+
+.footer {
+  padding: 16px 14px 20px;
+  border-top: 1px solid $border-color;
+  margin-top: auto;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  border-radius: $radius-sm;
+  transition: background $transition-fast;
+
+  &:hover {
+    background: rgba($accent-gold, 0.04);
+  }
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: $gradient-gold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: $bg-primary;
+  box-shadow: 0 2px 8px rgba($accent-gold, 0.3);
+}
+
+.userName {
+  font-size: 13px;
+  font-weight: 600;
+  color: $text-primary;
+}
+
+.userEmail {
+  font-size: 11px;
+  color: $text-muted;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: $radius-sm;
+  color: $text-muted;
+  font-size: 13px;
+  font-weight: 500;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  letter-spacing: 0.02em;
+  transition: all $transition-fast;
+
+  &:hover {
+    background: rgba($color-danger, 0.08);
+    color: $color-danger;
+  }
+}
+
+// ── Mobile: sidebar off-screen, slide in when open ──
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebarOpen {
+    transform: translateX(0);
+  }
+  .overlay { display: none; }
+  .overlayVisible { display: block; }
+}

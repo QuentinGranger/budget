@@ -1,0 +1,493 @@
+@use '../../styles/variables' as *;
+
+.page { max-width: $content-max-width; }
+
+// ── Header ──
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  h1 { font-size: 32px; font-weight: 700; font-family: 'Playfair Display', Georgia, serif; @include gold-text; }
+}
+
+.addBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  background: $gradient-gold;
+  color: $bg-primary;
+  border: none;
+  border-radius: $radius-sm;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 16px rgba($accent-gold, 0.25);
+  transition: all $transition-normal;
+  &:hover { box-shadow: 0 6px 24px rgba($accent-gold, 0.35); transform: translateY(-1px); }
+}
+
+// ── Summary Strip (4 KPIs) ──
+.summaryStrip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.summaryItem {
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-sm;
+  padding: 16px;
+  text-align: center;
+  box-shadow: $shadow-card;
+}
+
+.summaryValue {
+  font-size: 20px;
+  font-weight: 800;
+  font-family: 'Playfair Display', Georgia, serif;
+  color: $text-primary;
+  margin-bottom: 3px;
+}
+
+.summaryLabel {
+  font-size: 9px;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.valPositive { color: $color-success; }
+.valNegative { color: $color-danger; }
+.valGold { @include gold-text; }
+
+// ── Savings Context Strip ──
+.savingsStrip {
+  display: flex;
+  align-items: center;
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: 14px 20px;
+  margin-bottom: 20px;
+  box-shadow: $shadow-card;
+  gap: 0;
+}
+
+.savItem { display: flex; align-items: center; gap: 6px; flex: 1; justify-content: center; }
+.savIcon { color: $color-savings; opacity: 0.6; }
+.savLabel { font-size: 10px; color: $text-muted; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+.savValue { font-size: 14px; font-weight: 700; font-family: 'Playfair Display', Georgia, serif; color: $text-primary; }
+.savDivider { width: 1px; height: 24px; background: $border-color; margin: 0 6px; flex-shrink: 0; }
+
+// ── Goal Cards Grid ──
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.goalCard {
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: 22px;
+  box-shadow: $shadow-card;
+  transition: all $transition-normal;
+  position: relative;
+  overflow: hidden;
+  &:hover { border-color: $border-color-light; }
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: $gradient-gold;
+    opacity: 0.4;
+  }
+}
+
+.goalCardComplete {
+  &::before { background: linear-gradient(90deg, $color-success, transparent); opacity: 0.6; }
+}
+
+.goalTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.goalInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.goalIcon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.goalNameWrap {
+  min-width: 0;
+}
+
+.goalName {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Playfair Display', Georgia, serif;
+  color: $text-primary;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.goalType {
+  font-size: 10px;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 2px;
+}
+
+.goalActions {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity $transition-fast;
+  .goalCard:hover & { opacity: 1; }
+}
+
+.actionBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: 1px solid $border-color;
+  border-radius: 6px;
+  color: $text-muted;
+  transition: all $transition-fast;
+  &:hover { border-color: $border-color-light; color: $text-primary; background: rgba($accent-gold, 0.04); }
+}
+
+.deleteBtn:hover {
+  border-color: rgba($color-danger, 0.4);
+  color: $color-danger;
+  background: rgba($color-danger, 0.06);
+}
+
+// ── Goal progress section ──
+.goalAmounts {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.goalCurrent {
+  font-size: 24px;
+  font-weight: 800;
+  font-family: 'Playfair Display', Georgia, serif;
+  @include gold-text;
+}
+
+.goalTarget {
+  font-size: 13px;
+  color: $text-muted;
+}
+
+.goalBar { margin-bottom: 12px; }
+
+.goalFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.goalRemaining {
+  font-size: 12px;
+  color: $text-secondary;
+  font-weight: 500;
+}
+
+.goalTrajectory {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 10px;
+  border: 1px solid;
+}
+
+.trajOnTrack { color: $color-success; border-color: rgba($color-success, 0.2); background: rgba($color-success, 0.04); }
+.trajBehind { color: $color-warning; border-color: rgba($color-warning, 0.2); background: rgba($color-warning, 0.04); }
+.trajCritical { color: $color-danger; border-color: rgba($color-danger, 0.2); background: rgba($color-danger, 0.04); }
+.trajComplete { color: $color-success; border-color: rgba($color-success, 0.2); background: rgba($color-success, 0.06); }
+
+// ── Goal meta row ──
+.goalMeta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-top: 10px;
+  border-top: 1px solid rgba($border-color, 0.4);
+  font-size: 11px;
+  color: $text-muted;
+}
+
+.goalMetaItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.goalMetaValue {
+  font-weight: 700;
+  color: $text-secondary;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 12px;
+}
+
+// ── Insights Strip ──
+.insightsSection { margin-bottom: 24px; }
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  font-family: 'Playfair Display', Georgia, serif;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  &::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, $border-color-light, transparent); }
+}
+
+.insightsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.insightItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: $radius-sm;
+  font-size: 13px;
+  line-height: 1.5;
+  border: 1px solid;
+}
+
+.insightPositive { border-color: rgba($color-success, 0.2); background: rgba($color-success, 0.03); color: $color-success; }
+.insightCaution { border-color: rgba($color-warning, 0.2); background: rgba($color-warning, 0.03); color: $color-warning; }
+.insightInfo { border-color: rgba($color-info, 0.2); background: rgba($color-info, 0.03); color: $color-info; }
+.insightIcon { flex-shrink: 0; margin-top: 1px; }
+
+// ── Modal ──
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.modal {
+  background: $bg-card-solid;
+  border: 1px solid $border-color-light;
+  border-radius: $radius-lg;
+  padding: 32px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: $shadow-elevated;
+  h2 { font-size: 20px; font-weight: 700; font-family: 'Playfair Display', Georgia, serif; margin-bottom: 24px; @include gold-text; }
+}
+
+.form { display: flex; flex-direction: column; gap: 14px; }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  label { font-size: 11px; font-weight: 700; color: $text-muted; text-transform: uppercase; letter-spacing: 0.08em; }
+  input, select {
+    padding: 11px 14px;
+    background: $bg-input;
+    border: 1px solid $border-color;
+    border-radius: $radius-sm;
+    color: $text-primary;
+    font-size: 14px;
+    transition: all $transition-normal;
+    &:focus { outline: none; border-color: rgba($accent-gold, 0.5); box-shadow: 0 0 0 3px rgba($accent-gold, 0.08); }
+  }
+  select { appearance: auto; }
+}
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+// ── Icon Picker ──
+.iconPicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.iconOption {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid $border-color;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all $transition-fast;
+  &:hover { border-color: $border-color-light; background: rgba($accent-gold, 0.04); }
+}
+
+.iconSelected {
+  border-color: $accent-gold;
+  background: rgba($accent-gold, 0.08);
+  box-shadow: 0 0 0 2px rgba($accent-gold, 0.15);
+}
+
+// ── Impact Preview ──
+.impactPreview {
+  padding: 14px 16px;
+  border-radius: $radius-sm;
+  border: 1px solid;
+  margin-top: 4px;
+}
+
+.impactOk { border-color: rgba($color-success, 0.15); background: rgba($color-success, 0.02); }
+.impactWarn { border-color: rgba($color-warning, 0.15); background: rgba($color-warning, 0.02); }
+
+.impactHeader {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: $text-muted;
+  margin-bottom: 10px;
+}
+
+.impactRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 0;
+}
+
+.impactLabel { font-size: 12px; color: $text-secondary; }
+.impactValue { font-size: 13px; font-weight: 700; font-family: 'Playfair Display', Georgia, serif; }
+.impactGood { color: $color-success; }
+.impactBad { color: $color-warning; }
+
+.modalActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.cancelBtn {
+  flex: 1;
+  padding: 11px;
+  background: transparent;
+  border: 1px solid $border-color;
+  border-radius: $radius-sm;
+  color: $text-secondary;
+  font-size: 13px;
+  transition: all $transition-fast;
+  &:hover { border-color: $border-color-light; color: $text-primary; }
+}
+
+.saveBtn {
+  flex: 2;
+  padding: 11px;
+  background: $gradient-gold;
+  color: $bg-primary;
+  border: none;
+  border-radius: $radius-sm;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 16px rgba($accent-gold, 0.25);
+  transition: all $transition-normal;
+  &:hover { box-shadow: 0 6px 24px rgba($accent-gold, 0.35); }
+  &:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
+}
+
+// ── Empty State ──
+.emptyState {
+  text-align: center;
+  padding: 80px 20px;
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  box-shadow: $shadow-card;
+}
+
+.emptyIcon { color: $text-muted; opacity: 0.3; margin-bottom: 20px; }
+.emptyTitle { font-size: 18px; font-weight: 700; font-family: 'Playfair Display', Georgia, serif; color: $text-secondary; margin-bottom: 8px; }
+.emptyText { font-size: 13px; color: $text-muted; margin-bottom: 24px; max-width: 420px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+
+.emptyAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 28px;
+  background: $gradient-gold;
+  color: $bg-primary;
+  border: none;
+  border-radius: $radius-sm;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 16px rgba($accent-gold, 0.25);
+  transition: all $transition-normal;
+  &:hover { box-shadow: 0 6px 24px rgba($accent-gold, 0.35); transform: translateY(-1px); }
+}
+
+// ── Responsive ──
+@media (max-width: 768px) {
+  .summaryStrip { grid-template-columns: repeat(2, 1fr); }
+  .grid { grid-template-columns: 1fr; }
+  .savingsStrip { flex-direction: column; gap: 8px; padding: 14px; }
+  .savDivider { width: 100%; height: 1px; margin: 0; }
+  .header h1 { font-size: 24px; }
+  .goalActions { opacity: 1; }
+  .fieldRow { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .summaryStrip { grid-template-columns: 1fr 1fr; }
+  .goalCurrent { font-size: 20px; }
+  .modal { padding: 24px; margin: 0 12px; }
+}

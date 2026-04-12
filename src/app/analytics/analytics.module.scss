@@ -1,0 +1,335 @@
+@use '../../styles/variables' as *;
+
+.page { max-width: $content-max-width; }
+
+// ── Header + Period Selector ──
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  h1 { font-size: 32px; font-weight: 700; font-family: 'Playfair Display', Georgia, serif; @include gold-text; }
+}
+
+.periodSelector {
+  display: flex;
+  gap: 4px;
+  border: 1px solid $border-color;
+  border-radius: $radius-sm;
+  padding: 3px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.periodBtn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: transparent;
+  color: $text-muted;
+  transition: all $transition-fast;
+  &:hover { color: $text-secondary; }
+}
+
+.periodActive {
+  background: rgba($accent-gold, 0.12);
+  color: $accent-gold;
+}
+
+// ── Summary Strip (4 KPIs) ──
+.summaryStrip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.summaryItem {
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-sm;
+  padding: 16px;
+  text-align: center;
+  box-shadow: $shadow-card;
+}
+
+.summaryValue {
+  font-size: 20px;
+  font-weight: 800;
+  font-family: 'Playfair Display', Georgia, serif;
+  color: $text-primary;
+  margin-bottom: 3px;
+}
+
+.summaryLabel {
+  font-size: 9px;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.summaryDelta {
+  font-size: 10px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.valPositive { color: $color-success; }
+.valNegative { color: $color-danger; }
+.valGold { @include gold-text; }
+.valCaution { color: $color-warning; }
+
+// ── Chart Cards ──
+.chartsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.chartCard {
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: 22px;
+  box-shadow: $shadow-card;
+  transition: all $transition-normal;
+  &:hover { border-color: $border-color-light; }
+}
+
+.chartTitle {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 18px;
+  color: $text-secondary;
+  font-family: 'Playfair Display', Georgia, serif;
+  letter-spacing: 0.02em;
+}
+
+.fullWidth { grid-column: 1 / -1; }
+
+// ── Pillar Trend Cards ──
+.pillarTrends {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.pillarTrend {
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: 18px;
+  box-shadow: $shadow-card;
+  position: relative;
+  overflow: hidden;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    opacity: 0.5;
+  }
+}
+
+.pillarTrendNeeds::before { background: linear-gradient(90deg, $color-needs, transparent); }
+.pillarTrendWants::before { background: linear-gradient(90deg, $color-wants, transparent); }
+.pillarTrendSavings::before { background: linear-gradient(90deg, $color-savings, transparent); }
+
+.ptHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.ptLabel {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.ptNeedsColor { color: $color-needs; }
+.ptWantsColor { color: $color-wants; }
+.ptSavingsColor { color: $color-savings; }
+
+.ptTarget {
+  font-size: 10px;
+  color: $text-muted;
+  font-weight: 600;
+}
+
+.ptAvg {
+  font-size: 22px;
+  font-weight: 800;
+  font-family: 'Playfair Display', Georgia, serif;
+  margin-bottom: 2px;
+}
+
+.ptSub {
+  font-size: 11px;
+  color: $text-muted;
+  margin-bottom: 8px;
+}
+
+.ptDelta {
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+// ── Category Ranking ──
+.categorySection { margin-bottom: 24px; }
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  font-family: 'Playfair Display', Georgia, serif;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  &::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, $border-color-light, transparent); }
+}
+
+.categoryList { display: flex; flex-direction: column; gap: 6px; }
+
+.categoryRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-sm;
+  transition: all $transition-fast;
+  &:hover { border-color: $border-color-light; }
+}
+
+.catRank {
+  font-size: 11px;
+  font-weight: 700;
+  color: $text-muted;
+  min-width: 18px;
+}
+
+.catIcon { font-size: 16px; flex-shrink: 0; }
+.catMain { flex: 1; min-width: 0; }
+.catName { font-size: 13px; font-weight: 500; color: $text-primary; }
+.catPillar { font-size: 10px; color: $text-muted; margin-top: 1px; }
+.catBarWrap { flex: 1; min-width: 60px; max-width: 120px; }
+.catAmount { font-size: 13px; font-weight: 700; font-family: 'Playfair Display', Georgia, serif; min-width: 60px; text-align: right; }
+.catDelta {
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 44px;
+  text-align: right;
+}
+
+// ── Insights ──
+.insightsSection { margin-bottom: 24px; }
+
+.insightsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.insightItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: $radius-sm;
+  font-size: 13px;
+  line-height: 1.5;
+  border: 1px solid;
+}
+
+.insightPositive { border-color: rgba($color-success, 0.2); background: rgba($color-success, 0.03); color: $color-success; }
+.insightCaution { border-color: rgba($color-warning, 0.2); background: rgba($color-warning, 0.03); color: $color-warning; }
+.insightInfo { border-color: rgba($color-info, 0.2); background: rgba($color-info, 0.03); color: $color-info; }
+.insightIcon { flex-shrink: 0; margin-top: 1px; }
+
+// ── Recharts custom tooltip ──
+.tooltip {
+  background: $bg-card-solid;
+  border: 1px solid $border-color-light;
+  border-radius: $radius-sm;
+  padding: 10px 14px;
+  box-shadow: $shadow-elevated;
+}
+
+.tooltipLabel {
+  font-size: 11px;
+  color: $text-muted;
+  font-weight: 600;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tooltipRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 0;
+}
+
+.tooltipDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tooltipName { font-size: 12px; color: $text-secondary; flex: 1; }
+.tooltipValue { font-size: 12px; font-weight: 700; font-family: 'Playfair Display', Georgia, serif; color: $text-primary; }
+
+// ── Empty State ──
+.emptyState {
+  text-align: center;
+  padding: 80px 20px;
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  box-shadow: $shadow-card;
+}
+
+.emptyIcon { color: $text-muted; opacity: 0.3; margin-bottom: 20px; }
+.emptyTitle { font-size: 18px; font-weight: 700; font-family: 'Playfair Display', Georgia, serif; color: $text-secondary; margin-bottom: 8px; }
+.emptyText { font-size: 13px; color: $text-muted; max-width: 420px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+
+.noData {
+  text-align: center;
+  padding: 40px 20px;
+  color: $text-muted;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+// ── Responsive ──
+@media (max-width: 768px) {
+  .summaryStrip { grid-template-columns: repeat(2, 1fr); }
+  .chartsGrid { grid-template-columns: 1fr; }
+  .fullWidth { grid-column: 1; }
+  .pillarTrends { grid-template-columns: 1fr; }
+  .header h1 { font-size: 24px; }
+  .header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .categoryRow { flex-wrap: wrap; }
+  .catBarWrap { display: none; }
+}
+
+@media (max-width: 480px) {
+  .summaryStrip { grid-template-columns: 1fr 1fr; }
+  .periodSelector { width: 100%; justify-content: center; }
+}

@@ -1,0 +1,821 @@
+@use '../../styles/variables' as *;
+
+// ============================================================================
+// Dashboard — Premium Fintech Design
+// ============================================================================
+
+.page {
+  max-width: $content-max-width;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+// ── Greeting Header ──
+.greeting {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.greetingLeft {
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    font-family: 'Playfair Display', Georgia, serif;
+    @include gold-text;
+    margin-bottom: 4px;
+  }
+}
+
+.greetingSubtext {
+  font-size: 13px;
+  color: $text-secondary;
+  line-height: 1.5;
+}
+
+.monthSelector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.monthArrow {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid $border-color;
+  background: transparent;
+  color: $text-muted;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover:not(:disabled) {
+    border-color: rgba($accent-gold, 0.3);
+    color: $accent-gold;
+    background: rgba($accent-gold, 0.03);
+  }
+
+  &:disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+  }
+}
+
+.monthLabel {
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid $border-color;
+  background: transparent;
+  color: $text-secondary;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: all $transition-fast;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: rgba($accent-gold, 0.3);
+    color: $accent-gold;
+  }
+}
+
+.monthCurrent {
+  border-color: rgba($accent-gold, 0.25);
+  color: $accent-gold;
+  background: rgba($accent-gold, 0.04);
+}
+
+// ── Loyer Strip ──
+.loyerStrip {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: 14px 24px;
+  box-shadow: $shadow-card;
+}
+
+.loyerItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: center;
+}
+
+.loyerIcon {
+  color: $accent-gold;
+  opacity: 0.7;
+}
+
+.loyerLabel {
+  font-size: 11px;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.loyerValue {
+  font-size: 15px;
+  font-weight: 800;
+  font-family: 'Playfair Display', Georgia, serif;
+  color: $text-primary;
+}
+
+.loyerPositive { color: $color-success; }
+.loyerNegative { color: $color-danger; }
+
+.loyerNorm {
+  font-size: 10px;
+  color: $text-muted;
+  opacity: 0.6;
+}
+
+.loyerDivider {
+  width: 1px;
+  height: 28px;
+  background: $border-color;
+  margin: 0 8px;
+  flex-shrink: 0;
+}
+
+// ── Hero / Status Card ──
+.heroCard {
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+  padding: 28px 32px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: $shadow-card;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: -60px;
+    top: -60px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+}
+
+.heroPositive::after { background: radial-gradient(circle, rgba($color-success, 0.08), transparent 70%); }
+.heroNeutral::after { background: radial-gradient(circle, $accent-gold-glow, transparent 70%); }
+.heroCaution::after { background: radial-gradient(circle, rgba($color-warning, 0.08), transparent 70%); }
+.heroWarning::after { background: radial-gradient(circle, rgba($color-danger, 0.06), transparent 70%); }
+
+.heroScore {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80px;
+}
+
+.scoreCircle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 800;
+  font-family: 'Playfair Display', Georgia, serif;
+  border: 2px solid;
+  position: relative;
+}
+
+.scorePositive { color: $color-success; border-color: rgba($color-success, 0.3); background: rgba($color-success, 0.06); text-shadow: 0 0 20px rgba($color-success, 0.3); }
+.scoreNeutral { color: $accent-gold; border-color: rgba($accent-gold, 0.3); background: rgba($accent-gold, 0.06); text-shadow: 0 0 20px rgba($accent-gold, 0.3); }
+.scoreCaution { color: $color-warning; border-color: rgba($color-warning, 0.3); background: rgba($color-warning, 0.06); text-shadow: 0 0 20px rgba($color-warning, 0.3); }
+.scoreWarning { color: $color-danger; border-color: rgba($color-danger, 0.3); background: rgba($color-danger, 0.06); text-shadow: 0 0 20px rgba($color-danger, 0.3); }
+
+.scoreLabel {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 8px;
+  color: $text-muted;
+}
+
+.heroContent {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.heroTitle {
+  font-size: 18px;
+  font-weight: 600;
+  font-family: 'Playfair Display', Georgia, serif;
+  margin-bottom: 4px;
+}
+
+.heroMessage {
+  font-size: 13px;
+  color: $text-secondary;
+  line-height: 1.5;
+}
+
+.heroMeta {
+  display: flex;
+  gap: 20px;
+  margin-top: 14px;
+}
+
+.heroMetaItem {
+  font-size: 11px;
+  color: $text-muted;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  span { font-weight: 700; color: $text-primary; font-family: 'Playfair Display', Georgia, serif; font-size: 13px; }
+}
+
+// ── KPI Cards ──
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.kpiCard {
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: 20px;
+  box-shadow: $shadow-card;
+  transition: all $transition-luxury;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    border-color: $border-color-light;
+    transform: translateY(-1px);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    opacity: 0.5;
+  }
+}
+
+.kpiIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.kpiValue {
+  font-size: 22px;
+  font-weight: 800;
+  font-family: 'Playfair Display', Georgia, serif;
+  margin-bottom: 2px;
+}
+
+.kpiLabel {
+  font-size: 10px;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.kpiSub {
+  font-size: 11px;
+  color: $text-muted;
+  margin-top: 4px;
+}
+
+.kpiIncome { &::before { background: $gradient-gold; } .kpiIcon { background: rgba($accent-gold, 0.08); color: $accent-gold; } .kpiValue { @include gold-text; } }
+.kpiSpent { &::before { background: linear-gradient(90deg, $color-danger, transparent); } .kpiIcon { background: rgba($color-danger, 0.08); color: $color-danger; } }
+.kpiRemaining { &::before { background: linear-gradient(90deg, $color-success, transparent); } .kpiIcon { background: rgba($color-success, 0.08); color: $color-success; } .kpiValue { color: $color-success; } }
+.kpiSavings { &::before { background: linear-gradient(90deg, $color-savings, transparent); } .kpiIcon { background: rgba($color-savings, 0.08); color: $color-savings; } .kpiValue { color: $color-savings; } }
+
+// ── Main Layout ──
+.mainGrid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+  align-items: start;
+}
+
+.mainLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.mainRight {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+// ── Section Titles ──
+.section {
+  min-width: 0;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.sectionTitle {
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Playfair Display', Georgia, serif;
+  color: $text-primary;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, $border-color-light, transparent);
+    min-width: 40px;
+  }
+}
+
+.sectionLink {
+  font-size: 11px;
+  color: $accent-gold;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: color $transition-fast;
+  &:hover { color: $accent-gold-light; }
+}
+
+// ── Pillar Cards ──
+.pillarGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.pillarCard {
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: 20px;
+  box-shadow: $shadow-card;
+  transition: all $transition-luxury;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    border-color: $border-color-light;
+    transform: translateY(-1px);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    opacity: 0.6;
+  }
+}
+
+.needsPillar::before { background: linear-gradient(90deg, $color-needs, transparent); }
+.wantsPillar::before { background: linear-gradient(90deg, $color-wants, transparent); }
+.savingsPillar::before { background: linear-gradient(90deg, $color-savings, transparent); }
+
+.pillarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.pillarLabel {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.needsColor { color: $color-needs; }
+.wantsColor { color: $color-wants; }
+.savingsColor { color: $color-savings; }
+
+.pillarPercent {
+  font-size: 11px;
+  color: $text-muted;
+}
+
+.pillarSpent {
+  font-size: 20px;
+  font-weight: 800;
+  font-family: 'Playfair Display', Georgia, serif;
+  margin-bottom: 2px;
+}
+
+.pillarBudget {
+  font-size: 11px;
+  color: $text-muted;
+  margin-bottom: 14px;
+}
+
+.pillarRemaining {
+  font-size: 11px;
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.remainPositive { color: $color-success; }
+.remainNegative { color: $color-danger; }
+
+// ── Donut Chart Container ──
+.chartCard {
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: 24px;
+  box-shadow: $shadow-card;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.chartLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.legendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legendLabel {
+  flex: 1;
+  color: $text-secondary;
+}
+
+.legendValue {
+  font-weight: 700;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+// ── Alerts ──
+.alertsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.alertItem {
+  padding: 12px 16px;
+  border-radius: $radius-sm;
+  font-size: 13px;
+  line-height: 1.45;
+  border-left: 3px solid;
+}
+
+.alertDanger {
+  background: rgba($color-danger, 0.04);
+  border-left-color: $color-danger;
+  color: rgba($color-danger, 0.9);
+}
+
+.alertWarning {
+  background: rgba($color-warning, 0.04);
+  border-left-color: $color-warning;
+  color: rgba($color-warning, 0.9);
+}
+
+.alertInfo {
+  background: rgba($color-info, 0.04);
+  border-left-color: $color-info;
+  color: rgba($color-info, 0.85);
+}
+
+// ── Recommendations ──
+.recoList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recoItem {
+  padding: 14px 16px;
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-sm;
+  font-size: 13px;
+  color: $text-secondary;
+  line-height: 1.5;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  transition: border-color $transition-fast;
+  &:hover { border-color: $border-color-light; }
+}
+
+.recoIcon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba($accent-gold, 0.06);
+  border: 1px solid rgba($accent-gold, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: $accent-gold;
+  font-size: 14px;
+}
+
+.recoAction .recoIcon {
+  background: rgba($color-info, 0.06);
+  border-color: rgba($color-info, 0.12);
+  color: $color-info;
+}
+
+// ── Transactions ──
+.txList {
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  overflow: hidden;
+  box-shadow: $shadow-card;
+}
+
+.txRow {
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba($border-color, 0.4);
+  gap: 14px;
+  transition: background $transition-fast;
+
+  &:last-child { border-bottom: none; }
+  &:hover { background: rgba($accent-gold, 0.015); }
+}
+
+.txIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.txIconNeeds { background: rgba($color-needs, 0.08); color: $color-needs; }
+.txIconWants { background: rgba($color-wants, 0.08); color: $color-wants; }
+.txIconSavings { background: rgba($color-savings, 0.08); color: $color-savings; }
+
+.txInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.txDesc {
+  font-size: 13px;
+  font-weight: 500;
+  color: $text-primary;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.txCategory {
+  font-size: 11px;
+  color: $text-muted;
+  margin-top: 1px;
+}
+
+.txRight {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.txAmount {
+  font-size: 14px;
+  font-weight: 700;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.txDate {
+  font-size: 10px;
+  color: $text-muted;
+  margin-top: 1px;
+}
+
+// ── Goals ──
+.goalsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.goalCard {
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-sm;
+  padding: 16px;
+  box-shadow: $shadow-card;
+  transition: border-color $transition-fast;
+  &:hover { border-color: $border-color-light; }
+}
+
+.goalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.goalName {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.goalPercent {
+  font-size: 12px;
+  color: $accent-gold;
+  font-weight: 700;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.goalAmounts {
+  font-size: 11px;
+  color: $text-muted;
+  margin-top: 8px;
+}
+
+// ── Quick Actions ──
+.quickActions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.quickBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  background: transparent;
+  border: 1px solid $border-color;
+  border-radius: $radius-sm;
+  color: $text-secondary;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: all $transition-fast;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    border-color: rgba($accent-gold, 0.3);
+    color: $accent-gold;
+    background: rgba($accent-gold, 0.03);
+  }
+}
+
+.quickBtnPrimary {
+  background: $gradient-gold;
+  color: $bg-primary;
+  border-color: transparent;
+  font-weight: 700;
+  &:hover {
+    box-shadow: 0 4px 16px rgba($accent-gold, 0.25);
+    transform: translateY(-1px);
+  }
+}
+
+// ── Projection ──
+.projectionCard {
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: 20px;
+  box-shadow: $shadow-card;
+}
+
+.projRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba($border-color, 0.3);
+  &:last-child { border-bottom: none; }
+}
+
+.projLabel {
+  font-size: 12px;
+  color: $text-muted;
+}
+
+.projValue {
+  font-size: 14px;
+  font-weight: 700;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.projGood { color: $color-success; }
+.projBad { color: $color-danger; }
+
+// ── Month Progress Bar ──
+.monthProgress {
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.05);
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.monthProgressFill {
+  height: 100%;
+  border-radius: 2px;
+  background: $gradient-gold;
+  transition: width $transition-normal;
+}
+
+// ── Empty States ──
+.empty {
+  text-align: center;
+  padding: 80px 20px;
+  color: $text-muted;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+}
+
+.emptySmall {
+  text-align: center;
+  padding: 24px 16px;
+  color: $text-muted;
+  font-size: 12px;
+  letter-spacing: 0.03em;
+}
+
+// ── Responsive ──
+@media (max-width: 1024px) {
+  .mainGrid { grid-template-columns: 1fr; }
+  .mainRight { order: -1; }
+}
+
+@media (max-width: 768px) {
+  .kpiGrid { grid-template-columns: repeat(2, 1fr); }
+  .pillarGrid { grid-template-columns: 1fr; }
+  .greeting { flex-direction: column; align-items: flex-start; }
+  .heroCard { flex-direction: column; text-align: center; padding: 24px; gap: 16px; }
+  .heroMeta { justify-content: center; flex-wrap: wrap; }
+  .chartCard { flex-direction: column; }
+  .quickActions { justify-content: center; }
+  .loyerStrip { flex-direction: column; gap: 10px; padding: 16px; }
+  .loyerDivider { width: 100%; height: 1px; margin: 0; }
+}
+
+@media (max-width: 480px) {
+  .kpiGrid { grid-template-columns: 1fr; }
+}

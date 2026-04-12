@@ -1,0 +1,28 @@
+{
+  "name": "CapBudget — Gestion de Budget",
+  "short_name": "CapBudget",
+  "description": "Application de gestion de budget personnel basee sur la regle 50/30/20",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#08080c",
+  "theme_color": "#08080c",
+  "orientation": "any",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/blason.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["finance", "productivity"],
+  "lang": "fr",
+  "dir": "ltr"
+}

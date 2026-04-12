@@ -1,0 +1,44 @@
+@use '../../../styles/variables' as *;
+
+.wrapper {
+  width: 100%;
+}
+
+.label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: $text-muted;
+  letter-spacing: 0.02em;
+}
+
+.track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width $transition-luxury;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.2), transparent);
+    border-radius: 3px;
+  }
+}
+
+.needs { background: linear-gradient(90deg, #3a78c4, $color-needs); box-shadow: 0 0 12px rgba($color-needs, 0.3); }
+.wants { background: linear-gradient(90deg, #9656cc, $color-wants); box-shadow: 0 0 12px rgba($color-wants, 0.3); }
+.savings { background: linear-gradient(90deg, #24b362, $color-savings); box-shadow: 0 0 12px rgba($color-savings, 0.3); }
+.gold { background: $gradient-gold; box-shadow: 0 0 12px rgba($accent-gold, 0.3); }
+.danger { background: linear-gradient(90deg, #d04040, $color-danger); box-shadow: 0 0 12px rgba($color-danger, 0.3); }

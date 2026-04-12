@@ -1,0 +1,153 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String
+  emailHash    String   @unique   // HMAC hash for lookup; actual email is encrypted
+  passwordHash String   @default("")
+  currency     String   @default("EUR")
+  onboarded    Boolean  @default(false)
+  role         String   @default("user") // user | admin | support
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Security fields
+  failedLoginAttempts Int       @default(0)
+  lockedUntil         DateTime?
+  tokenVersion        Int       @default(0)
+  lastActivity        DateTime  @default(now())
+
+  // Email verification
+  emailVerified    Boolean  @default(false)
+  emailVerifyToken String?
+
+  // Password reset
+  resetToken       String?
+  resetTokenExpiry DateTime?
+
+  // 2FA
+  totpEnabled Boolean @default(false)
+  totpSecret  String?
+
+  settings     UserSettings?
+  incomes      Income[]
+  categories   Category[]
+  transactions Transaction[]
+  goals        Goal[]
+  auditLogs       AuditLog[]
+  passwordHistory  PasswordHistory[]
+}
+
+model UserSettings {
+  id                    String @id @default(uuid())
+  userId                String @unique
+  needsPercent          Int    @default(50)
+  wantsPercent          Int    @default(30)
+  savingsPercent        Int    @default(20)
+  tolerancePercent      Int    @default(5)
+  budgetStartDay        Int    @default(1)
+  strictMode            Boolean @default(false)
+  disciplineLevel       String  @default("moderate")
+  financialGoal         String  @default("control")
+  monthlyFixedExpenses  Float   @default(0)
+  comfortLevel          String  @default("moderate")
+  incomeType            String  @default("stable")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Income {
+  id        String   @id @default(uuid())
+  userId    String
+  label     String
+  amount    Float
+  type      String   @default("primary")
+  frequency String   @default("monthly")
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Category {
+  id           String  @id @default(uuid())
+  userId       String?
+  name         String
+  icon         String  @default("circle")
+  pillar       String
+  isDefault    Boolean @default(true)
+  sortOrder    Int     @default(0)
+
+  user         User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+
+  @@unique([userId, name])
+}
+
+model Transaction {
+  id          String   @id @default(uuid())
+  userId      String
+  categoryId  String
+  amount      Float
+  date        DateTime
+  description String   @default("")
+  note        String   @default("")
+  pillar      String
+  isRecurring Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id])
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String
+  action    String   // e.g. "admin.delete_user", "admin.view_users"
+  target    String?  // target resource id
+  details   String?  // JSON extra info
+  ip        String?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model PasswordHistory {
+  id           String   @id @default(uuid())
+  userId       String
+  passwordHash String
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Goal {
+  id            String   @id @default(uuid())
+  userId        String
+  name          String
+  targetAmount  Float
+  currentAmount Float    @default(0)
+  targetDate    DateTime
+  pillar        String   @default("savings")
+  icon          String   @default("target")
+  color         String   @default("#c9a84c")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

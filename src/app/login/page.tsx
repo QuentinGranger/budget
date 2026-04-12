@@ -1,0 +1,139 @@
+'use client';
+
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import styles from './login.module.scss';
+
+export default function LoginPage() {
+  const router = useRouter();
+  const [mode, setMode] = useState<'login' | 'register'>('login');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [totpCode, setTotpCode] = useState('');
+  const [needs2FA, setNeeds2FA] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, totpCode: totpCode || undefined }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        if (data.requires2FA) {
+          setNeeds2FA(true);
+          setLoading(false);
+          return;
+        }
+        setError(data.error || 'Erreur de connexion');
+        setLoading(false);
+        return;
+      }
+
+      router.push(data.onboarded ? '/dashboard' : '/onboarding');
+    } catch {
+      setError('Erreur reseau');
+      setLoading(false);
+    }
+  };
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || 'Erreur');
+        if (data.details) setError(data.details.join(', '));
+        setLoading(false);
+        return;
+      }
+
+      setSuccess(data.message || 'Compte cree ! Verifiez votre email puis connectez-vous.');
+      setMode('login');
+      setLoading(false);
+    } catch {
+      setError('Erreur reseau');
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className={styles.page}>
+      <div className={styles.card}>
+        <div className={styles.logo}>
+          <img src="/blason.png" alt="" className={styles.blason} />
+          <img src="/logo.png" alt="CapBudget" className={styles.logoText} />
+          <p>{mode === 'login' ? 'Connectez-vous a votre compte' : 'Creez votre compte'}</p>
+        </div>
+
+        {error && <div className={styles.error}>{error}</div>}
+        {success && <div className={styles.error} style={{ borderColor: 'rgba(34,197,94,0.25)', background: 'rgba(34,197,94,0.1)', color: '#22c55e' }}>{success}</div>}
+
+        <form className={styles.form} onSubmit={mode === 'login' ? handleLogin : handleRegister}>
+          {mode === 'register' && (
+            <div className={styles.field}>
+              <label>Nom</label>
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Votre nom" required />
+            </div>
+          )}
+
+          <div className={styles.field}>
+            <label>Email</label>
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="votre@email.com" required />
+          </div>
+
+          <div className={styles.field}>
+            <label>Mot de passe</label>
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" required />
+          </div>
+
+          {needs2FA && (
+            <div className={`${styles.field} ${styles.totpField}`}>
+              <label>Code 2FA</label>
+              <input type="text" value={totpCode} onChange={(e) => setTotpCode(e.target.value)} placeholder="123456" maxLength={6} required />
+            </div>
+          )}
+
+          <button type="submit" className={styles.submitBtn} disabled={loading}>
+            {loading ? 'Chargement...' : mode === 'login' ? 'Se connecter' : 'Creer un compte'}
+          </button>
+        </form>
+
+        <div className={styles.links}>
+          {mode === 'login' ? (
+            <>
+              <Link href="/forgot-password">Mot de passe oublie ?</Link>
+              <button onClick={() => { setMode('register'); setError(''); setSuccess(''); }} style={{ background: 'none', border: 'none', color: '#c9a84c', cursor: 'pointer', fontSize: '13px' }}>
+                Creer un compte
+              </button>
+            </>
+          ) : (
+            <button onClick={() => { setMode('login'); setError(''); setSuccess(''); }} style={{ background: 'none', border: 'none', color: '#c9a84c', cursor: 'pointer', fontSize: '13px' }}>
+              Deja un compte ? Se connecter
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

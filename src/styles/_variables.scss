@@ -1,0 +1,106 @@
+// ============================================================================
+// Design Tokens — Luxury Automotive Edition
+// ============================================================================
+// Inspired by Bentley, Rolls-Royce, Porsche dashboards: deep blacks,
+// brushed chrome, rich gold, carbon-fiber textures, premium feel.
+
+// Core Palette
+$bg-primary: #08080c;
+$bg-secondary: #0e0e14;
+$bg-card: rgba(16, 16, 24, 0.85);
+$bg-card-solid: #10101a;
+$bg-card-hover: #161622;
+$bg-input: #0c0c16;
+$bg-glass: rgba(20, 20, 32, 0.6);
+
+// Text
+$text-primary: #f2f0eb;
+$text-secondary: #9d9baf;
+$text-muted: #5c5a6e;
+
+// Brand — Gold & Chrome
+$accent-gold: #d4a843;
+$accent-gold-light: #e8c96e;
+$accent-gold-dark: #b08c2a;
+$accent-gold-glow: rgba(212, 168, 67, 0.15);
+$accent-chrome: #c0c0cc;
+$accent-chrome-light: #e0e0ea;
+
+// Pillar Colors (refined, jewel-tone)
+$color-needs: #4a90e2;
+$color-wants: #b06ce6;
+$color-savings: #2ecc71;
+
+// Status
+$color-danger: #e74c4c;
+$color-warning: #e8a830;
+$color-info: #4a90e2;
+$color-success: #2ecc71;
+
+// Borders — chrome-like fine lines
+$border-color: rgba(212, 168, 67, 0.12);
+$border-color-light: rgba(212, 168, 67, 0.22);
+$border-chrome: rgba(192, 192, 204, 0.1);
+
+// Spacing
+$radius-sm: 8px;
+$radius-md: 14px;
+$radius-lg: 18px;
+$radius-xl: 24px;
+
+// Shadows — deep luxury
+$shadow-card: 0 4px 24px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(212, 168, 67, 0.05) inset;
+$shadow-elevated: 0 12px 48px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(212, 168, 67, 0.08) inset;
+$shadow-gold-glow: 0 0 30px rgba(212, 168, 67, 0.12);
+
+// Gradients
+$gradient-gold: linear-gradient(135deg, #d4a843, #b08c2a);
+$gradient-gold-text: linear-gradient(135deg, #e8c96e, #d4a843, #b08c2a);
+$gradient-chrome: linear-gradient(135deg, #e0e0ea, #a0a0b0);
+$gradient-card: linear-gradient(180deg, rgba(20, 20, 32, 0.9), rgba(12, 12, 20, 0.95));
+$gradient-sidebar: linear-gradient(180deg, #0c0c14, #080810);
+$gradient-carbon: repeating-linear-gradient(
+  45deg,
+  transparent,
+  transparent 2px,
+  rgba(255, 255, 255, 0.01) 2px,
+  rgba(255, 255, 255, 0.01) 4px
+);
+
+// Transitions
+$transition-fast: 180ms cubic-bezier(0.4, 0, 0.2, 1);
+$transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+$transition-luxury: 500ms cubic-bezier(0.25, 0.1, 0.25, 1);
+
+// Layout
+$sidebar-width: 280px;
+$header-height: 64px;
+$content-max-width: 1200px;
+
+// Mixins
+@mixin glass-panel {
+  background: $bg-glass;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid $border-color;
+  box-shadow: $shadow-card;
+}
+
+@mixin gold-border-glow {
+  border: 1px solid $border-color-light;
+  box-shadow: $shadow-card, $shadow-gold-glow;
+}
+
+@mixin chrome-text {
+  background: $gradient-chrome;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@mixin gold-text {
+  background: $gradient-gold-text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

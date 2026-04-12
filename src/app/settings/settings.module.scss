@@ -1,0 +1,767 @@
+@use '../../styles/variables' as *;
+
+// ============================================================================
+// Settings — Premium Control Center
+// ============================================================================
+
+.page {
+  max-width: $content-max-width;
+  display: flex;
+  gap: 0;
+  min-height: calc(100vh - 100px);
+}
+
+// ── Sidebar Navigation ──
+.nav {
+  width: 240px;
+  flex-shrink: 0;
+  padding: 0 24px 0 0;
+  border-right: 1px solid $border-color;
+  position: sticky;
+  top: 32px;
+  align-self: flex-start;
+}
+
+.navTitle {
+  font-size: 28px;
+  font-weight: 700;
+  font-family: 'Playfair Display', Georgia, serif;
+  @include gold-text;
+  margin-bottom: 32px;
+}
+
+.navList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: $radius-sm;
+  font-size: 13px;
+  font-weight: 500;
+  color: $text-secondary;
+  cursor: pointer;
+  transition: all $transition-fast;
+  border: 1px solid transparent;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+
+  &:hover {
+    color: $text-primary;
+    background: rgba($accent-gold, 0.03);
+  }
+
+  svg { opacity: 0.5; flex-shrink: 0; }
+}
+
+.navItemActive {
+  color: $text-primary;
+  background: rgba($accent-gold, 0.06);
+  border-color: rgba($accent-gold, 0.12);
+  font-weight: 600;
+  svg { opacity: 1; color: $accent-gold; }
+}
+
+.navBadge {
+  margin-left: auto;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.navBadgeWarn {
+  color: $color-warning;
+  background: rgba($color-warning, 0.08);
+  border: 1px solid rgba($color-warning, 0.15);
+}
+
+.navBadgeOk {
+  color: $color-success;
+  background: rgba($color-success, 0.08);
+  border: 1px solid rgba($color-success, 0.15);
+}
+
+// ── Main Content Area ──
+.content {
+  flex: 1;
+  min-width: 0;
+  padding: 0 0 0 40px;
+}
+
+// ── Section Header ──
+.sectionHeader {
+  margin-bottom: 28px;
+}
+
+.sectionTitle {
+  font-size: 22px;
+  font-weight: 700;
+  font-family: 'Playfair Display', Georgia, serif;
+  color: $text-primary;
+  margin-bottom: 6px;
+}
+
+.sectionDesc {
+  font-size: 13px;
+  color: $text-muted;
+  line-height: 1.6;
+}
+
+// ── Card (settings group) ──
+.card {
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: $shadow-card;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 20px; right: 20px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba($accent-gold, 0.12), transparent);
+  }
+}
+
+.cardTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: $text-primary;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  svg { color: $accent-gold; opacity: 0.6; }
+}
+
+.cardDesc {
+  font-size: 12px;
+  color: $text-muted;
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+
+// ── Form Elements ──
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.row3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-size: 11px;
+    font-weight: 700;
+    color: $text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  input, select, textarea {
+    padding: 10px 14px;
+    background: $bg-input;
+    border: 1px solid $border-color;
+    border-radius: $radius-sm;
+    color: $text-primary;
+    font-size: 14px;
+    transition: all $transition-normal;
+    &:focus { outline: none; border-color: rgba($accent-gold, 0.5); box-shadow: 0 0 0 3px rgba($accent-gold, 0.08); }
+    &:disabled { opacity: 0.45; cursor: not-allowed; }
+  }
+}
+
+.fieldHint {
+  font-size: 11px;
+  color: $text-muted;
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
+.fieldImpact {
+  font-size: 10px;
+  color: rgba($accent-gold, 0.7);
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  svg { width: 10px; height: 10px; }
+}
+
+// ── Buttons ──
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  background: $gradient-gold;
+  color: $bg-primary;
+  border: none;
+  border-radius: $radius-sm;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 16px rgba($accent-gold, 0.25);
+  cursor: pointer;
+  transition: all $transition-normal;
+  &:hover { box-shadow: 0 6px 24px rgba($accent-gold, 0.35); transform: translateY(-1px); }
+  &:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; transform: none; }
+}
+
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 20px;
+  background: transparent;
+  border: 1px solid rgba($accent-gold, 0.25);
+  border-radius: $radius-sm;
+  color: $accent-gold;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all $transition-normal;
+  &:hover { background: rgba($accent-gold, 0.06); border-color: $accent-gold; }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+
+.btnGhost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid $border-color;
+  border-radius: $radius-sm;
+  color: $text-secondary;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition-fast;
+  &:hover { border-color: $border-color-light; color: $text-primary; background: rgba($accent-gold, 0.03); }
+}
+
+.btnDanger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  background: transparent;
+  border: 1px solid rgba($color-danger, 0.35);
+  border-radius: $radius-sm;
+  color: $color-danger;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all $transition-normal;
+  &:hover { background: rgba($color-danger, 0.06); border-color: $color-danger; }
+}
+
+.btnRow {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 4px;
+}
+
+// ── Split Preview ──
+.splitPreview {
+  display: flex;
+  gap: 12px;
+}
+
+.splitBox {
+  flex: 1;
+  text-align: center;
+  padding: 16px 8px;
+  border-radius: $radius-sm;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid $border-color;
+  transition: border-color $transition-fast;
+  &:hover { border-color: $border-color-light; }
+}
+
+.splitValue {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 4px;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.splitLabel {
+  font-size: 10px;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+}
+
+.splitAmount {
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 4px;
+  opacity: 0.7;
+}
+
+.needsVal { color: $color-needs; }
+.wantsVal { color: $color-wants; }
+.savingsVal { color: $color-savings; }
+
+// ── Profile Badges ──
+.badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: 1px solid $border-color;
+  background: rgba(0, 0, 0, 0.2);
+  color: $text-secondary;
+}
+
+.badgeLow { color: $color-needs; border-color: rgba($color-needs, 0.25); }
+.badgeMedium { color: $accent-gold; border-color: rgba($accent-gold, 0.25); }
+.badgeHigh { color: $color-savings; border-color: rgba($color-savings, 0.25); }
+.badgeCritical { color: $color-danger; border-color: rgba($color-danger, 0.25); }
+
+// ── Reste à vivre ──
+.rav {
+  text-align: center;
+  padding: 14px;
+  background: rgba($accent-gold, 0.04);
+  border: 1px solid rgba($accent-gold, 0.12);
+  border-radius: $radius-sm;
+}
+
+.ravValue {
+  font-size: 22px;
+  font-weight: 800;
+  font-family: 'Playfair Display', Georgia, serif;
+  @include gold-text;
+}
+
+.ravLabel {
+  font-size: 10px;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+// ── Reasoning / Smart Insights ──
+.insights {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.insightsTitle {
+  font-size: 11px;
+  font-weight: 700;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  &::after { content: ''; flex: 1; height: 1px; background: $border-color; }
+}
+
+.insightItem {
+  font-size: 12px;
+  color: $text-secondary;
+  line-height: 1.5;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: $radius-sm;
+  border-left: 2px solid rgba($accent-gold, 0.3);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  svg { flex-shrink: 0; margin-top: 1px; color: $accent-gold; opacity: 0.6; }
+}
+
+.insightWarn {
+  border-left-color: rgba($color-warning, 0.5);
+  svg { color: $color-warning; }
+}
+
+.insightDanger {
+  border-left-color: rgba($color-danger, 0.5);
+  color: rgba($color-danger, 0.85);
+  background: rgba($color-danger, 0.04);
+  svg { color: $color-danger; }
+}
+
+.insightSuccess {
+  border-left-color: rgba($color-success, 0.4);
+  svg { color: $color-success; }
+}
+
+// ── Category List ──
+.catList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.catRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba($border-color, 0.3);
+  transition: background $transition-fast;
+  &:last-child { border-bottom: none; }
+  &:hover { background: rgba($accent-gold, 0.02); }
+}
+
+.catIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  background: rgba($accent-gold, 0.06);
+  border: 1px solid rgba($border-color, 0.5);
+  flex-shrink: 0;
+}
+
+.catInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.catName {
+  font-size: 13px;
+  font-weight: 500;
+  color: $text-primary;
+}
+
+.catPillar {
+  font-size: 10px;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.catDefault {
+  font-size: 9px;
+  color: $text-muted;
+  padding: 2px 6px;
+  border-radius: 8px;
+  border: 1px solid $border-color;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.catDeleteBtn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: $text-muted;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: all $transition-fast;
+  .catRow:hover & { opacity: 1; }
+  &:hover { border-color: rgba($color-danger, 0.4); color: $color-danger; background: rgba($color-danger, 0.06); }
+}
+
+// ── Inline Add Form ──
+.addRow {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  padding: 14px 0 0;
+  border-top: 1px solid $border-color;
+  margin-top: 4px;
+}
+
+.addRow .field { flex: 1; }
+
+.addRow input, .addRow select {
+  padding: 9px 12px;
+  font-size: 13px;
+}
+
+// ── Security Status ──
+.securityScore {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border-radius: $radius-sm;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid $border-color;
+  margin-bottom: 18px;
+}
+
+.securityLevel {
+  font-size: 13px;
+  font-weight: 600;
+  color: $text-primary;
+}
+
+.securityMeter {
+  flex: 1;
+  height: 4px;
+  background: rgba($border-color, 0.5);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.securityMeterFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width $transition-luxury;
+}
+
+.securityMeterLow { background: $color-danger; }
+.securityMeterMedium { background: $color-warning; }
+.securityMeterHigh { background: $color-success; }
+
+.securityLabel {
+  font-size: 11px;
+  color: $text-muted;
+  font-weight: 600;
+}
+
+// ── Setting Row (toggle style) ──
+.settingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba($border-color, 0.3);
+  &:last-child { border-bottom: none; }
+}
+
+.settingInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.settingLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: $text-primary;
+}
+
+.settingHint {
+  font-size: 11px;
+  color: $text-muted;
+  margin-top: 2px;
+}
+
+.settingAction {
+  flex-shrink: 0;
+  margin-left: 16px;
+}
+
+// ── Toggle Switch ──
+.toggle {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  background: rgba($border-color, 0.5);
+  border-radius: 11px;
+  cursor: pointer;
+  transition: background $transition-fast;
+  border: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    background: $text-secondary;
+    border-radius: 50%;
+    transition: all $transition-fast;
+  }
+}
+
+.toggleOn {
+  background: rgba($accent-gold, 0.3);
+  &::after {
+    transform: translateX(18px);
+    background: $accent-gold;
+  }
+}
+
+// ── Toast / Status ──
+.toast {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  padding: 12px 20px;
+  border-radius: $radius-sm;
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 200;
+  animation: slideIn 300ms ease-out;
+  box-shadow: $shadow-elevated;
+}
+
+.toastSuccess {
+  background: rgba($color-success, 0.12);
+  border: 1px solid rgba($color-success, 0.25);
+  color: $color-success;
+}
+
+.toastError {
+  background: rgba($color-danger, 0.12);
+  border: 1px solid rgba($color-danger, 0.25);
+  color: $color-danger;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+// ── Danger Zone ──
+.dangerCard {
+  border-color: rgba($color-danger, 0.2);
+  &::before { background: linear-gradient(90deg, transparent, rgba($color-danger, 0.12), transparent); }
+}
+
+// ── QR Code ──
+.qrWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  background: #fff;
+  border-radius: $radius-sm;
+  width: fit-content;
+  margin: 0 auto;
+  img { border-radius: 4px; }
+}
+
+.totpCode {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  input {
+    width: 160px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    padding: 10px;
+    background: $bg-input;
+    border: 1px solid $border-color;
+    border-radius: $radius-sm;
+    color: $text-primary;
+    &:focus { outline: none; border-color: rgba($accent-gold, 0.5); }
+  }
+}
+
+// ── Mobile Nav (horizontal tabs) ──
+.mobileNav {
+  display: none;
+  overflow-x: auto;
+  gap: 0;
+  margin-bottom: 24px;
+  border-bottom: 1px solid $border-color;
+  padding-bottom: 0;
+  -webkit-overflow-scrolling: touch;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.mobileNavItem {
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: $text-muted;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all $transition-fast;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  &:hover { color: $text-primary; }
+}
+
+.mobileNavActive {
+  color: $accent-gold;
+  border-bottom-color: $accent-gold;
+}
+
+// ── Responsive ──
+@media (max-width: 900px) {
+  .page { flex-direction: column; }
+  .nav { display: none; }
+  .mobileNav { display: flex; }
+  .content { padding: 0; }
+  .row { grid-template-columns: 1fr; }
+  .row3 { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 480px) {
+  .row3 { grid-template-columns: 1fr; }
+  .splitPreview { flex-direction: column; gap: 8px; }
+  .splitBox { padding: 12px 8px; }
+  .splitValue { font-size: 22px; }
+  .addRow { flex-direction: column; align-items: stretch; }
+  .toast { left: 16px; right: 16px; bottom: 16px; }
+  .sectionTitle { font-size: 20px; }
+}

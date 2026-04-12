@@ -1,0 +1,400 @@
+@use '../../styles/variables' as *;
+
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: $bg-primary;
+  background-image: $gradient-carbon;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(ellipse at 50% 30%, rgba($accent-gold, 0.04) 0%, transparent 50%);
+    pointer-events: none;
+  }
+}
+
+.card {
+  width: 100%;
+  max-width: 580px;
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-xl;
+  padding: 48px 40px;
+  box-shadow: $shadow-elevated;
+  position: relative;
+  z-index: 1;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: $radius-xl;
+    padding: 1px;
+    background: linear-gradient(180deg, rgba($accent-gold, 0.15), transparent 60%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 36px;
+
+  h1 {
+    font-size: 24px;
+    font-weight: 700;
+    font-family: 'Playfair Display', Georgia, serif;
+    @include gold-text;
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-size: 13px;
+    color: $text-muted;
+    letter-spacing: 0.04em;
+  }
+}
+
+.stepper, .steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 36px;
+}
+
+.step {
+  width: 40px;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.06);
+  transition: all $transition-luxury;
+}
+
+.stepActive {
+  background: $gradient-gold;
+  width: 60px;
+  box-shadow: 0 0 8px rgba($accent-gold, 0.3);
+}
+
+.stepDone {
+  background: $color-success;
+  box-shadow: 0 0 8px rgba($color-success, 0.2);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+
+  label {
+    font-size: 11px;
+    font-weight: 700;
+    color: $text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  input, select {
+    padding: 12px 16px;
+    background: $bg-input;
+    border: 1px solid $border-color;
+    border-radius: $radius-sm;
+    color: $text-primary;
+    font-size: 14px;
+    transition: all $transition-normal;
+
+    &:focus { outline: none; border-color: rgba($accent-gold, 0.5); box-shadow: 0 0 0 3px rgba($accent-gold, 0.08); }
+  }
+}
+
+.incomeRow {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+
+  .field { flex: 1; }
+}
+
+.addIncomeBtn {
+  padding: 10px 16px;
+  background: transparent;
+  border: 1px dashed rgba($accent-gold, 0.25);
+  border-radius: $radius-sm;
+  color: $text-muted;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: all $transition-fast;
+
+  &:hover {
+    border-color: rgba($accent-gold, 0.5);
+    color: $accent-gold;
+    background: rgba($accent-gold, 0.04);
+  }
+}
+
+.removeBtn {
+  padding: 10px;
+  background: transparent;
+  border: 1px solid $border-color;
+  border-radius: $radius-sm;
+  color: $text-muted;
+  transition: all $transition-fast;
+
+  &:hover {
+    border-color: rgba($color-danger, 0.4);
+    color: $color-danger;
+  }
+}
+
+.splitPreview {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.splitBox {
+  flex: 1;
+  text-align: center;
+  padding: 18px 8px;
+  border-radius: $radius-md;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid $border-color;
+  transition: border-color $transition-fast;
+  &:hover { border-color: $border-color-light; }
+}
+
+.splitAmount {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.splitPercent {
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 4px;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.splitLabel {
+  font-size: 10px;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+}
+
+.needsSplit { color: $color-needs; }
+.wantsSplit { color: $color-wants; }
+.savingsSplit { color: $color-savings; }
+
+.needsBox { border-color: rgba($color-needs, 0.2); }
+.wantsBox { border-color: rgba($color-wants, 0.2); }
+.savingsBox { border-color: rgba($color-savings, 0.2); }
+
+.splitAmounts {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.splitAmountBox {
+  flex: 1;
+  text-align: center;
+  padding: 10px 6px;
+  border-radius: $radius-sm;
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid $border-color;
+}
+
+.splitAmountValue {
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Playfair Display', Georgia, serif;
+  margin-bottom: 2px;
+}
+
+.splitAmountLabel {
+  font-size: 9px;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.resteAVivre {
+  text-align: center;
+  padding: 14px 16px;
+  background: rgba($accent-gold, 0.04);
+  border: 1px solid rgba($accent-gold, 0.12);
+  border-radius: $radius-sm;
+  margin-bottom: 16px;
+
+  .ravValue {
+    font-size: 22px;
+    font-weight: 800;
+    font-family: 'Playfair Display', Georgia, serif;
+    @include gold-text;
+    margin-bottom: 2px;
+  }
+
+  .ravLabel {
+    font-size: 10px;
+    color: $text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+
+  .ravDaily {
+    font-size: 11px;
+    color: $text-muted;
+    margin-top: 4px;
+  }
+}
+
+.profileBadges {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.profileBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: 1px solid $border-color;
+  background: rgba(0, 0, 0, 0.2);
+  color: $text-secondary;
+}
+
+.badgeLow { color: $color-needs; border-color: rgba($color-needs, 0.25); }
+.badgeMedium { color: $accent-gold; border-color: rgba($accent-gold, 0.25); }
+.badgeHigh { color: $color-savings; border-color: rgba($color-savings, 0.25); }
+.badgeCritical { color: $color-danger; border-color: rgba($color-danger, 0.25); }
+
+.reasoning {
+  margin-top: 16px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reasoningTitle {
+  font-size: 11px;
+  font-weight: 700;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  &::after { content: ''; flex: 1; height: 1px; background: $border-color; }
+}
+
+.reasonItem {
+  font-size: 12px;
+  color: $text-secondary;
+  line-height: 1.55;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: $radius-sm;
+  border-left: 2px solid rgba($accent-gold, 0.3);
+
+  &.warning {
+    border-left-color: rgba($color-danger, 0.5);
+    color: rgba($color-danger, 0.85);
+    background: rgba($color-danger, 0.04);
+  }
+}
+
+.totalIncome {
+  text-align: center;
+  font-size: 13px;
+  color: $text-muted;
+  margin-bottom: 16px;
+  letter-spacing: 0.02em;
+
+  strong {
+    color: $accent-gold;
+    font-size: 22px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.backBtn {
+  flex: 1;
+  padding: 13px;
+  background: transparent;
+  border: 1px solid $border-color;
+  border-radius: $radius-sm;
+  color: $text-secondary;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  transition: all $transition-fast;
+
+  &:hover { border-color: $border-color-light; color: $text-primary; }
+}
+
+.nextBtn {
+  flex: 2;
+  padding: 14px;
+  background: $gradient-gold;
+  color: $bg-primary;
+  border: none;
+  border-radius: $radius-sm;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 16px rgba($accent-gold, 0.25);
+  transition: all $transition-normal;
+
+  &:hover { box-shadow: 0 6px 24px rgba($accent-gold, 0.35); transform: translateY(-1px); }
+  &:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; transform: none; }
+}
+
+.error {
+  padding: 12px 16px;
+  background: rgba($color-danger, 0.06);
+  border: 1px solid rgba($color-danger, 0.15);
+  border-radius: $radius-sm;
+  color: $color-danger;
+  font-size: 13px;
+  text-align: center;
+}

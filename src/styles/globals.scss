@@ -1,0 +1,69 @@
+@use 'variables' as *;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: $bg-primary;
+  background-image: $gradient-carbon;
+  color: $text-primary;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: 0.01em;
+}
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  letter-spacing: 0.02em;
+}
+
+a {
+  color: $accent-gold;
+  text-decoration: none;
+  transition: color $transition-fast;
+  &:hover { color: $accent-gold-light; }
+}
+
+button {
+  cursor: pointer;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+::selection {
+  background: rgba($accent-gold, 0.3);
+  color: $text-primary;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba($accent-gold, 0.2);
+  border-radius: 4px;
+  &:hover { background: rgba($accent-gold, 0.35); }
+}
+
+// Utility classes
+.gold { color: $accent-gold; }
+.needs-color { color: $color-needs; }
+.wants-color { color: $color-wants; }
+.savings-color { color: $color-savings; }

@@ -1,0 +1,408 @@
+@use '../../styles/variables' as *;
+
+.page { max-width: $content-max-width; }
+
+// ── Header ──
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  h1 { font-size: 32px; font-weight: 700; font-family: 'Playfair Display', Georgia, serif; @include gold-text; }
+}
+
+.healthBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.healthPositive { color: $color-success; border-color: rgba($color-success, 0.25); background: rgba($color-success, 0.04); }
+.healthNeutral { color: $accent-gold; border-color: rgba($accent-gold, 0.25); background: rgba($accent-gold, 0.04); }
+.healthCaution { color: $color-warning; border-color: rgba($color-warning, 0.25); background: rgba($color-warning, 0.04); }
+.healthWarning { color: $color-danger; border-color: rgba($color-danger, 0.25); background: rgba($color-danger, 0.04); }
+
+// ── Month Summary Strip ──
+.summaryStrip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.summaryItem {
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-sm;
+  padding: 16px;
+  text-align: center;
+  box-shadow: $shadow-card;
+}
+
+.summaryValue {
+  font-size: 20px;
+  font-weight: 800;
+  font-family: 'Playfair Display', Georgia, serif;
+  color: $text-primary;
+  margin-bottom: 3px;
+}
+
+.summaryLabel {
+  font-size: 9px;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.valPositive { color: $color-success; }
+.valNegative { color: $color-danger; }
+.valOnTrack { color: $color-success; }
+.valOffTrack { color: $color-warning; }
+
+// ── Situation Card (Charges fixes) ──
+.situationStrip {
+  display: flex;
+  align-items: center;
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: 14px 20px;
+  margin-bottom: 20px;
+  box-shadow: $shadow-card;
+  gap: 0;
+}
+
+.sitItem { display: flex; align-items: center; gap: 6px; flex: 1; justify-content: center; }
+.sitIcon { color: $accent-gold; opacity: 0.6; }
+.sitLabel { font-size: 10px; color: $text-muted; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+.sitValue { font-size: 14px; font-weight: 700; font-family: 'Playfair Display', Georgia, serif; color: $text-primary; }
+.sitDivider { width: 1px; height: 24px; background: $border-color; margin: 0 6px; flex-shrink: 0; }
+.sitWarn { color: $color-warning; }
+
+// ── Pillar Grid ──
+.pillarGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.pillarCard {
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: 20px;
+  box-shadow: $shadow-card;
+  position: relative;
+  overflow: hidden;
+  transition: all $transition-normal;
+  &:hover { border-color: $border-color-light; }
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    opacity: 0.6;
+  }
+}
+
+.needsPillar::before { background: linear-gradient(90deg, $color-needs, transparent); }
+.wantsPillar::before { background: linear-gradient(90deg, $color-wants, transparent); }
+.savingsPillar::before { background: linear-gradient(90deg, $color-savings, transparent); }
+
+.pillarTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.pillarLabel {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.needsColor { color: $color-needs; }
+.wantsColor { color: $color-wants; }
+.savingsColor { color: $color-savings; }
+
+.pillarTarget {
+  font-size: 11px;
+  color: $text-muted;
+  font-weight: 600;
+}
+
+.pillarAmounts {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.pillarSpent {
+  font-size: 26px;
+  font-weight: 800;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.pillarBudgeted {
+  font-size: 13px;
+  color: $text-muted;
+}
+
+.pillarBar { margin-bottom: 12px; }
+
+.pillarFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.pillarRemaining {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.pillarStatus {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 10px;
+  border: 1px solid;
+}
+
+.statusOk { color: $color-success; border-color: rgba($color-success, 0.2); background: rgba($color-success, 0.04); }
+.statusCaution { color: $color-warning; border-color: rgba($color-warning, 0.2); background: rgba($color-warning, 0.04); }
+.statusOver { color: $color-danger; border-color: rgba($color-danger, 0.2); background: rgba($color-danger, 0.04); }
+
+// ── Pillar categories mini-list ──
+.pillarCats {
+  border-top: 1px solid rgba($border-color, 0.5);
+  padding-top: 12px;
+}
+
+.pillarCatRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 0;
+  font-size: 12px;
+}
+
+.pillarCatIcon { font-size: 14px; flex-shrink: 0; }
+.pillarCatName { flex: 1; color: $text-secondary; font-weight: 500; }
+.pillarCatAmount { font-weight: 700; font-family: 'Playfair Display', Georgia, serif; font-size: 12px; color: $text-primary; }
+.pillarCatPercent { color: $text-muted; font-size: 10px; min-width: 32px; text-align: right; }
+
+// ── Pillar projection ──
+.pillarProjection {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba($border-color, 0.3);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: $text-muted;
+}
+
+.projValue {
+  font-weight: 700;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 12px;
+}
+
+// ── Section titles ──
+.section { margin-bottom: 24px; }
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  font-family: 'Playfair Display', Georgia, serif;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  &::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, $border-color-light, transparent); }
+}
+
+// ── All categories breakdown ──
+.categoryList { display: flex; flex-direction: column; gap: 6px; }
+
+.categoryRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-sm;
+  transition: all $transition-fast;
+  &:hover { border-color: $border-color-light; }
+}
+
+.catIcon { font-size: 16px; flex-shrink: 0; }
+.catMain { flex: 1; min-width: 0; }
+.catName { font-size: 13px; font-weight: 500; color: $text-primary; }
+.catPillar { font-size: 10px; color: $text-muted; margin-top: 1px; }
+.catBarWrap { flex: 1; min-width: 60px; max-width: 120px; }
+.catAmount { font-size: 13px; font-weight: 700; font-family: 'Playfair Display', Georgia, serif; min-width: 60px; text-align: right; }
+.catPercent { font-size: 11px; color: $text-muted; min-width: 36px; text-align: right; font-weight: 600; }
+.catOver { color: $color-danger; }
+
+// ── Alerts + Recommendations ──
+.alertsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.alertItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: $radius-sm;
+  font-size: 13px;
+  line-height: 1.5;
+  border: 1px solid;
+}
+
+.alertWarning { border-color: rgba($color-warning, 0.2); background: rgba($color-warning, 0.03); color: $color-warning; }
+.alertDanger { border-color: rgba($color-danger, 0.2); background: rgba($color-danger, 0.03); color: $color-danger; }
+.alertInfo { border-color: rgba($color-info, 0.2); background: rgba($color-info, 0.03); color: $color-info; }
+.alertTip { border-color: rgba($color-success, 0.2); background: rgba($color-success, 0.03); color: $color-success; }
+
+.alertIcon { flex-shrink: 0; margin-top: 1px; }
+
+// ── Elasticity ──
+.elasticityCard {
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: 20px;
+  box-shadow: $shadow-card;
+}
+
+.transferRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  font-size: 13px;
+  border-bottom: 1px solid rgba($border-color, 0.3);
+  &:last-child { border-bottom: none; }
+}
+
+.transferFrom { font-weight: 600; color: $text-secondary; }
+.transferArrow { color: $accent-gold; }
+.transferTo { font-weight: 600; color: $text-secondary; }
+.transferAmount { font-weight: 700; color: $accent-gold; font-family: 'Playfair Display', Georgia, serif; font-size: 14px; }
+.transferReason { font-size: 12px; color: $text-muted; flex: 1; text-align: right; }
+
+// ── Smart Analysis Card ──
+.analysisCard {
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: 20px;
+  box-shadow: $shadow-card;
+  position: relative;
+  overflow: hidden;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: $gradient-gold;
+    opacity: 0.4;
+  }
+}
+
+.profileBadges { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+
+.profileBadge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: 1px solid $border-color;
+  background: rgba(0, 0, 0, 0.2);
+  color: $text-secondary;
+}
+
+.badgeLow { color: $color-needs; border-color: rgba($color-needs, 0.25); }
+.badgeMedium { color: $accent-gold; border-color: rgba($accent-gold, 0.25); }
+.badgeHigh { color: $color-savings; border-color: rgba($color-savings, 0.25); }
+.badgeCritical { color: $color-danger; border-color: rgba($color-danger, 0.25); }
+
+.splitRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.splitLabel { font-size: 12px; color: $text-muted; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; flex: 1; }
+.splitValue { font-size: 15px; font-weight: 700; font-family: 'Playfair Display', Georgia, serif; }
+.splitNeeds { color: $color-needs; }
+.splitWants { color: $color-wants; }
+.splitSavings { color: $color-savings; }
+.splitGold { @include gold-text; }
+
+.reasoning { display: flex; flex-direction: column; gap: 6px; margin-top: 14px; }
+
+.reasonItem {
+  font-size: 12px;
+  color: $text-secondary;
+  line-height: 1.5;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: $radius-sm;
+  border-left: 2px solid rgba($accent-gold, 0.3);
+  &.warning { border-left-color: rgba($color-danger, 0.5); color: rgba($color-danger, 0.85); background: rgba($color-danger, 0.04); }
+}
+
+// ── Empty State ──
+.emptyState {
+  text-align: center;
+  padding: 80px 20px;
+  background: $gradient-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  box-shadow: $shadow-card;
+}
+
+.emptyIcon { color: $text-muted; opacity: 0.3; margin-bottom: 20px; }
+.emptyTitle { font-size: 18px; font-weight: 700; font-family: 'Playfair Display', Georgia, serif; color: $text-secondary; margin-bottom: 8px; }
+.emptyText { font-size: 13px; color: $text-muted; margin-bottom: 24px; max-width: 400px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+
+// ── Responsive ──
+@media (max-width: 768px) {
+  .summaryStrip { grid-template-columns: repeat(2, 1fr); }
+  .pillarGrid { grid-template-columns: 1fr; }
+  .situationStrip { flex-direction: column; gap: 8px; padding: 14px; }
+  .sitDivider { width: 100%; height: 1px; margin: 0; }
+  .header h1 { font-size: 24px; }
+  .categoryRow { flex-wrap: wrap; }
+  .catBarWrap { display: none; }
+}
+
+@media (max-width: 480px) {
+  .summaryStrip { grid-template-columns: 1fr 1fr; }
+  .pillarSpent { font-size: 22px; }
+}
