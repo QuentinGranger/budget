@@ -398,3 +398,101 @@
   font-size: 13px;
   text-align: center;
 }
+
+// ── Responsive ──
+@media (max-width: 640px) {
+  .page {
+    padding: env(safe-area-inset-top, 12px) 12px calc(12px + env(safe-area-inset-bottom, 0px));
+    align-items: flex-start;
+  }
+
+  .card {
+    padding: 28px 20px;
+    border-radius: $radius-md;
+    max-width: 100%;
+  }
+
+  .header {
+    margin-bottom: 24px;
+
+    img { width: 48px !important; height: 48px !important; margin-bottom: 10px !important; }
+
+    h1 { font-size: 20px; }
+    p { font-size: 12px; }
+  }
+
+  .stepper, .steps {
+    margin-bottom: 24px;
+  }
+
+  .field {
+    label { font-size: 10px; }
+    input, select { padding: 10px 14px; font-size: 13px; }
+  }
+
+  .incomeRow {
+    flex-wrap: wrap;
+    gap: 8px;
+
+    .field { flex: 1 1 calc(50% - 4px); min-width: 0; }
+  }
+
+  .splitPreview {
+    gap: 8px;
+    margin: 14px 0;
+  }
+
+  .splitBox {
+    padding: 12px 4px;
+  }
+
+  .splitPercent {
+    font-size: 20px;
+  }
+
+  .splitLabel {
+    font-size: 9px;
+  }
+
+  .splitAmounts {
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .splitAmountBox {
+    padding: 8px 4px;
+  }
+
+  .splitAmountValue {
+    font-size: 13px;
+  }
+
+  .resteAVivre {
+    padding: 12px;
+
+    .ravValue { font-size: 18px; }
+  }
+
+  .profileBadges {
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .reasoning {
+    margin-top: 12px;
+  }
+
+  .reasonItem {
+    font-size: 11px;
+    padding: 8px 12px;
+  }
+
+  .actions {
+    margin-top: 12px;
+  }
+
+  .backBtn, .nextBtn {
+    padding: 12px;
+    font-size: 12px;
+  }
+}

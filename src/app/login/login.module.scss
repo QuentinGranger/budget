@@ -191,3 +191,41 @@
 .totpField {
   margin-top: 8px;
 }
+
+// ── Responsive ──
+@media (max-width: 640px) {
+  .page {
+    padding: env(safe-area-inset-top, 12px) 12px calc(12px + env(safe-area-inset-bottom, 0px));
+    align-items: flex-start;
+  }
+
+  .card {
+    padding: 32px 20px;
+    border-radius: $radius-md;
+  }
+
+  .logo {
+    margin-bottom: 24px;
+
+    .blason { width: 56px; height: 56px; margin-bottom: 12px; }
+    .logoText { height: 26px; margin-bottom: 10px; }
+    h1 { font-size: 22px; }
+    p { font-size: 12px; }
+  }
+
+  .field {
+    input { padding: 10px 14px; font-size: 13px; }
+  }
+
+  .submitBtn {
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  .links {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+  }
+}
