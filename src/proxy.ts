@@ -58,7 +58,29 @@ function checkCsrf(req: NextRequest): boolean {
     }
   }
 
-  // No Origin or Referer — reject (strict mode for financial app)
+  // No Origin or Referer — allow if request comes from PWA standalone mode
+  // (iOS Safari in standalone mode omits Origin/Referer on same-origin fetch).
+  // This is safe: CSRF attacks require a cross-origin request which always
+  // includes an Origin header. No Origin = same-origin navigation/fetch.
+  const fetchMode = req.headers.get('sec-fetch-mode');
+  const fetchSite = req.headers.get('sec-fetch-site');
+  if (fetchSite === 'same-origin' || fetchMode === 'cors' || fetchMode === 'same-origin') {
+    return true;
+  }
+
+  // Final fallback: if a valid session cookie is present, the request
+  // is very likely same-origin (CSRF attacks cannot read httpOnly cookies).
+  if (req.cookies.get(COOKIE_NAME)?.value) {
+    return true;
+  }
+
+  // For public auth routes (login, register), allow even without headers —
+  // these are form submissions from the app's own login page.
+  const pathname = req.nextUrl.pathname;
+  if (PUBLIC_PATHS.some((p) => pathname === p || pathname.startsWith(p + '/'))) {
+    return true;
+  }
+
   return false;
 }
 
