@@ -12,12 +12,12 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 56px;
+  height: calc(56px + env(safe-area-inset-top, 0px));
   background: $gradient-sidebar;
   border-bottom: 1px solid $border-color;
   align-items: center;
   gap: 12px;
-  padding: 0 16px;
+  padding: env(safe-area-inset-top, 0px) 16px 0;
   z-index: 140;
 }
 
@@ -85,12 +85,12 @@
   .main {
     margin-left: 0;
     max-width: 100vw;
-    padding: 72px 16px 24px;
+    padding: calc(72px + env(safe-area-inset-top, 0px)) 16px 24px;
   }
 }
 
 @media (max-width: 480px) {
   .main {
-    padding: 64px 12px 20px;
+    padding: calc(64px + env(safe-area-inset-top, 0px)) 12px 20px;
   }
 }
