@@ -26,10 +26,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (needsOnboarding) {
       setRedirecting(true);
-      router.push('/onboarding');
+      router.replace('/onboarding');
     } else if (needsLogin) {
       setRedirecting(true);
-      router.push('/login');
+      router.replace('/login');
     }
   }, [needsOnboarding, needsLogin, router]);
 

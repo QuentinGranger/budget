@@ -66,11 +66,12 @@
   padding: 0 20px calc(20px + env(safe-area-inset-bottom, 0px));
   box-shadow: 0 -16px 64px rgba(0, 0, 0, 0.6), 0 -1px 0 rgba($accent-gold, 0.08);
   animation: slideUp 280ms cubic-bezier(0.32, 0.72, 0, 1);
-  max-height: 90vh;
+  max-height: 85vh;
   overflow-y: auto;
   overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   transition: transform 300ms cubic-bezier(0.32, 0.72, 0, 1);
-  touch-action: pan-y;
+  touch-action: pan-y pinch-zoom;
   will-change: transform;
 }
 
@@ -82,6 +83,7 @@
   gap: 4px;
   padding: 12px 0 8px;
   cursor: grab;
+  touch-action: none;
 
   &:active { cursor: grabbing; }
 }
@@ -508,7 +510,20 @@
   .categoryGrid { max-height: 160px; }
 }
 
-// ── Mobile small ──
+// ── Mobile medium (481–768px) ──
+@media (max-width: 768px) {
+  .sheet {
+    padding: 0 16px calc(16px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .form { gap: 12px; }
+
+  .amountSection { padding: 12px; }
+
+  .categoryGrid { max-height: 100px; }
+}
+
+// ── Mobile small (≤480px) ──
 @media (max-width: 480px) {
   .fab {
     bottom: calc(16px + env(safe-area-inset-bottom, 0px));
@@ -517,21 +532,98 @@
     height: 54px;
   }
 
+  .sheet {
+    max-height: 88vh;
+    padding: 0 14px calc(14px + env(safe-area-inset-bottom, 0px));
+    border-radius: 20px 20px 0 0;
+  }
+
+  .sheetHeader {
+    margin-bottom: 12px;
+    h3 { font-size: 16px; }
+  }
+
+  .form { gap: 10px; }
+
+  .amountSection {
+    padding: 10px;
+    gap: 8px;
+  }
+
   .amountInput {
     font-size: 26px;
+    padding: 8px 0;
+    &::placeholder { font-size: 22px; }
+  }
+
+  .amountCurrency { font-size: 12px; }
+
+  .categoryGrid {
+    max-height: 80px;
+    gap: 6px;
   }
 
   .categoryChip {
-    padding: 6px 10px;
+    padding: 5px 9px;
     font-size: 11px;
+    gap: 4px;
   }
+
+  .chipEmoji { font-size: 12px; }
+
+  .quickAmounts { gap: 4px; }
 
   .quickAmountBtn {
     padding: 5px 10px;
     font-size: 11px;
   }
 
-  .dateInput { width: 115px; }
+  .pillarRow {
+    padding: 8px 10px;
+    font-size: 10px;
+    flex-wrap: wrap;
+  }
 
-  .metaRow { flex-direction: column; }
+  .pillarImpact { font-size: 9px; }
+
+  .metaRow { flex-direction: column; gap: 8px; }
+
+  .dateInput { width: 100%; }
+
+  .descInput { font-size: 12px; padding: 8px 12px; }
+
+  .submitBtn {
+    padding: 14px;
+    font-size: 13px;
+  }
+
+  .label {
+    font-size: 9px;
+    margin-bottom: -4px;
+  }
+
+  .dragHandle { padding: 10px 0 4px; }
+}
+
+// ── Very small screens (≤360px) ──
+@media (max-width: 360px) {
+  .sheet {
+    padding: 0 10px calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .amountInput { font-size: 22px; }
+
+  .quickAmounts { flex-wrap: wrap; justify-content: center; }
+
+  .quickAmountBtn {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+
+  .categoryChip {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+
+  .submitBtn { padding: 12px; font-size: 12px; }
 }

@@ -50,12 +50,12 @@ export default function LoginPage() {
         return;
       }
 
-      // Use window.location for PWA standalone mode where router.push may not work
+      // Replace history entry so back gesture doesn't return to login
       const target = data.onboarded ? '/dashboard' : '/onboarding';
       if (window.matchMedia('(display-mode: standalone)').matches) {
-        window.location.href = target;
+        window.location.replace(target);
       } else {
-        router.push(target);
+        router.replace(target);
       }
     } catch (err) {
       setError(`Erreur reseau: ${err instanceof Error ? err.message : String(err)}`);
