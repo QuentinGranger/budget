@@ -3,17 +3,19 @@
 import React, { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { useI18n } from '@/lib/i18n';
 import styles from '../login/login.module.scss';
 
 export default function ResetPasswordPage() {
   return (
-    <Suspense fallback={<div className={styles.page}><div className={styles.card}>Chargement...</div></div>}>
+    <Suspense fallback={<div className={styles.page}><div className={styles.card}>...</div></div>}>
       <ResetPasswordContent />
     </Suspense>
   );
 }
 
 function ResetPasswordContent() {
+  const { t } = useI18n();
   const searchParams = useSearchParams();
   const token = searchParams.get('token') || '';
   const [password, setPassword] = useState('');
@@ -27,7 +29,7 @@ function ResetPasswordContent() {
     setError('');
 
     if (password !== confirm) {
-      setError('Les mots de passe ne correspondent pas');
+      setError(t('auth.passwordMismatch'));
       return;
     }
 
@@ -41,12 +43,12 @@ function ResetPasswordContent() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || (data.details ? data.details.join(', ') : 'Erreur'));
+        setError(data.error || (data.details ? data.details.join(', ') : t('auth.error')));
       } else {
         setDone(true);
       }
     } catch {
-      setError('Erreur reseau');
+      setError(t('auth.networkError'));
     }
     setLoading(false);
   };
@@ -57,7 +59,7 @@ function ResetPasswordContent() {
         <div className={styles.logo}>
           <img src="/blason.png" alt="" className={styles.blason} />
           <img src="/logo.png" alt="CapBudget" className={styles.logoText} />
-          <p>Nouveau mot de passe</p>
+          <p>{t('auth.newPasswordTitle')}</p>
         </div>
 
         {error && <div className={styles.error}>{error}</div>}
@@ -65,24 +67,24 @@ function ResetPasswordContent() {
         {done ? (
           <>
             <div className={styles.error} style={{ borderColor: 'rgba(34,197,94,0.25)', background: 'rgba(34,197,94,0.1)', color: '#22c55e' }}>
-              Mot de passe reinitialise avec succes !
+              {t('auth.resetSuccess')}
             </div>
             <div className={styles.links} style={{ marginTop: 16 }}>
-              <Link href="/login">Se connecter</Link>
+              <Link href="/login">{t('auth.login')}</Link>
             </div>
           </>
         ) : (
           <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.field}>
-              <label>Nouveau mot de passe</label>
+              <label>{t('auth.newPassword')}</label>
               <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" required />
             </div>
             <div className={styles.field}>
-              <label>Confirmer</label>
+              <label>{t('auth.confirmPassword')}</label>
               <input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} placeholder="••••••••" required />
             </div>
             <button type="submit" className={styles.submitBtn} disabled={loading}>
-              {loading ? 'Chargement...' : 'Reinitialiser'}
+              {loading ? t('auth.loading') : t('auth.reset')}
             </button>
           </form>
         )}

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useCallback } from 'react';
 import { AlertTriangle, Trash2, ShieldAlert, LogOut, Info } from 'lucide-react';
+import { useI18n } from '@/lib/i18n';
 import styles from './Modal.module.scss';
 
 export type ModalVariant = 'default' | 'danger' | 'warn';
@@ -27,12 +28,15 @@ export default function Modal({
   open,
   title,
   message,
-  confirmLabel = 'Confirmer',
-  cancelLabel = 'Annuler',
+  confirmLabel,
+  cancelLabel,
   variant = 'default',
   onConfirm,
   onCancel,
 }: ModalProps) {
+  const { t } = useI18n();
+  const resolvedConfirm = confirmLabel || t('modal.confirm');
+  const resolvedCancel = cancelLabel || t('modal.cancel');
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === 'Escape') onCancel();
   }, [onCancel]);
@@ -70,14 +74,14 @@ export default function Modal({
         </div>
         <div className={styles.footer}>
           <button className={styles.btnCancel} onClick={onCancel}>
-            {cancelLabel}
+            {resolvedCancel}
           </button>
           <button
             className={`${styles.btnConfirm} ${variant === 'danger' ? styles.btnDanger : ''}`}
             onClick={onConfirm}
             autoFocus
           >
-            {confirmLabel}
+            {resolvedConfirm}
           </button>
         </div>
       </div>
@@ -100,7 +104,7 @@ export function useConfirm() {
     open: false,
     title: '',
     message: '',
-    confirmLabel: 'Confirmer',
+    confirmLabel: '',
     variant: 'default',
     resolve: null,
   });
@@ -112,7 +116,7 @@ export function useConfirm() {
           open: true,
           title: opts.title,
           message: opts.message,
-          confirmLabel: opts.confirmLabel || 'Confirmer',
+          confirmLabel: opts.confirmLabel || '',
           variant: opts.variant || 'default',
           resolve,
         });

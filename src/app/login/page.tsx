@@ -3,10 +3,12 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useI18n } from '@/lib/i18n';
 import styles from './login.module.scss';
 
 export default function LoginPage() {
   const router = useRouter();
+  const { t } = useI18n();
   const [mode, setMode] = useState<'login' | 'register'>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -34,7 +36,7 @@ export default function LoginPage() {
       try {
         data = await res.json();
       } catch {
-        setError(`Erreur serveur (${res.status} — reponse non-JSON)`);
+        setError(t('auth.serverError', { status: res.status }));
         setLoading(false);
         return;
       }
@@ -45,7 +47,7 @@ export default function LoginPage() {
           setLoading(false);
           return;
         }
-        setError(data.error || `Erreur ${res.status}`);
+        setError(data.error || t('auth.errorStatus', { status: res.status }));
         setLoading(false);
         return;
       }
@@ -58,7 +60,7 @@ export default function LoginPage() {
         router.replace(target);
       }
     } catch (err) {
-      setError(`Erreur reseau: ${err instanceof Error ? err.message : String(err)}`);
+      setError(t('auth.networkErrorDetail', { message: err instanceof Error ? err.message : String(err) }));
       setLoading(false);
     }
   };
@@ -77,17 +79,17 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || 'Erreur');
+        setError(data.error || t('auth.error'));
         if (data.details) setError(data.details.join(', '));
         setLoading(false);
         return;
       }
 
-      setSuccess(data.message || 'Compte cree ! Verifiez votre email puis connectez-vous.');
+      setSuccess(data.message || t('auth.registerSuccess'));
       setMode('login');
       setLoading(false);
     } catch {
-      setError('Erreur reseau');
+      setError(t('auth.networkError'));
       setLoading(false);
     }
   };
@@ -98,7 +100,7 @@ export default function LoginPage() {
         <div className={styles.logo}>
           <img src="/blason.png" alt="" className={styles.blason} />
           <img src="/logo.png" alt="CapBudget" className={styles.logoText} />
-          <p>{mode === 'login' ? 'Connectez-vous a votre compte' : 'Creez votre compte'}</p>
+          <p>{mode === 'login' ? t('auth.loginSubtitle') : t('auth.registerSubtitle')}</p>
         </div>
 
         {error && <div className={styles.error}>{error}</div>}
@@ -107,44 +109,44 @@ export default function LoginPage() {
         <form className={styles.form} onSubmit={mode === 'login' ? handleLogin : handleRegister}>
           {mode === 'register' && (
             <div className={styles.field}>
-              <label>Nom</label>
-              <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Votre nom" required />
+              <label>{t('auth.name')}</label>
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder={t('auth.namePlaceholder')} required />
             </div>
           )}
 
           <div className={styles.field}>
-            <label>Email</label>
+            <label>{t('auth.email')}</label>
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="votre@email.com" required />
           </div>
 
           <div className={styles.field}>
-            <label>Mot de passe</label>
+            <label>{t('auth.password')}</label>
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" required />
           </div>
 
           {needs2FA && (
             <div className={`${styles.field} ${styles.totpField}`}>
-              <label>Code 2FA</label>
+              <label>{t('auth.code2FA')}</label>
               <input type="text" value={totpCode} onChange={(e) => setTotpCode(e.target.value)} placeholder="123456" maxLength={6} required />
             </div>
           )}
 
           <button type="submit" className={styles.submitBtn} disabled={loading}>
-            {loading ? 'Chargement...' : mode === 'login' ? 'Se connecter' : 'Creer un compte'}
+            {loading ? t('auth.loading') : mode === 'login' ? t('auth.login') : t('auth.register')}
           </button>
         </form>
 
         <div className={styles.links}>
           {mode === 'login' ? (
             <>
-              <Link href="/forgot-password">Mot de passe oublie ?</Link>
+              <Link href="/forgot-password">{t('auth.forgotPassword')}</Link>
               <button onClick={() => { setMode('register'); setError(''); setSuccess(''); }} style={{ background: 'none', border: 'none', color: '#c9a84c', cursor: 'pointer', fontSize: '13px' }}>
-                Creer un compte
+                {t('auth.register')}
               </button>
             </>
           ) : (
             <button onClick={() => { setMode('login'); setError(''); setSuccess(''); }} style={{ background: 'none', border: 'none', color: '#c9a84c', cursor: 'pointer', fontSize: '13px' }}>
-              Deja un compte ? Se connecter
+              {t('auth.hasAccount')}
             </button>
           )}
         </div>

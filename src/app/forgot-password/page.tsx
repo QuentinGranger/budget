@@ -2,9 +2,11 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useI18n } from '@/lib/i18n';
 import styles from '../login/login.module.scss';
 
 export default function ForgotPasswordPage() {
+  const { t } = useI18n();
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
   const [error, setError] = useState('');
@@ -24,12 +26,12 @@ export default function ForgotPasswordPage() {
 
       if (!res.ok) {
         const data = await res.json();
-        setError(data.error || 'Erreur');
+        setError(data.error || t('auth.error'));
       } else {
         setSent(true);
       }
     } catch {
-      setError('Erreur reseau');
+      setError(t('auth.networkError'));
     }
     setLoading(false);
   };
@@ -40,29 +42,29 @@ export default function ForgotPasswordPage() {
         <div className={styles.logo}>
           <img src="/blason.png" alt="" className={styles.blason} />
           <img src="/logo.png" alt="CapBudget" className={styles.logoText} />
-          <p>Reinitialisation du mot de passe</p>
+          <p>{t('auth.resetTitle')}</p>
         </div>
 
         {error && <div className={styles.error}>{error}</div>}
 
         {sent ? (
           <div className={styles.error} style={{ borderColor: 'rgba(34,197,94,0.25)', background: 'rgba(34,197,94,0.1)', color: '#22c55e' }}>
-            Si un compte existe avec cet email, un lien de reinitialisation a ete envoye.
+            {t('auth.resetSent')}
           </div>
         ) : (
           <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.field}>
-              <label>Email</label>
+              <label>{t('auth.email')}</label>
               <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="votre@email.com" required />
             </div>
             <button type="submit" className={styles.submitBtn} disabled={loading}>
-              {loading ? 'Envoi...' : 'Envoyer le lien'}
+              {loading ? t('auth.sending') : t('auth.sendLink')}
             </button>
           </form>
         )}
 
         <div className={styles.links}>
-          <Link href="/login">Retour a la connexion</Link>
+          <Link href="/login">{t('auth.backToLogin')}</Link>
         </div>
       </div>
     </div>

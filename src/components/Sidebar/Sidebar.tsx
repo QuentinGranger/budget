@@ -7,15 +7,16 @@ import {
   LayoutDashboard, ArrowLeftRight, PieChart, Target, BarChart3, Settings, LogOut,
 } from 'lucide-react';
 import { useStore } from '@/lib/store';
+import { useI18n } from '@/lib/i18n';
 import styles from './Sidebar.module.scss';
 
 const NAV_ITEMS = [
-  { href: '/dashboard', label: 'Tableau de bord', icon: LayoutDashboard },
-  { href: '/transactions', label: 'Transactions', icon: ArrowLeftRight },
-  { href: '/budget', label: 'Budget', icon: PieChart },
-  { href: '/goals', label: 'Objectifs', icon: Target },
-  { href: '/analytics', label: 'Analytique', icon: BarChart3 },
-  { href: '/settings', label: 'Parametres', icon: Settings },
+  { href: '/dashboard', key: 'nav.dashboard', icon: LayoutDashboard },
+  { href: '/transactions', key: 'nav.transactions', icon: ArrowLeftRight },
+  { href: '/budget', key: 'nav.budget', icon: PieChart },
+  { href: '/goals', key: 'nav.goals', icon: Target },
+  { href: '/analytics', key: 'nav.analytics', icon: BarChart3 },
+  { href: '/settings', key: 'nav.settings', icon: Settings },
 ];
 
 interface SidebarProps {
@@ -27,6 +28,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const { state } = useStore();
+  const { t } = useI18n();
   const user = state.user;
 
   const handleLogout = async () => {
@@ -53,7 +55,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
         <div className={styles.divider} />
 
         <nav className={styles.nav}>
-          {NAV_ITEMS.map(({ href, label, icon: Icon }) => (
+          {NAV_ITEMS.map(({ href, key, icon: Icon }) => (
             <Link
               key={href}
               href={href}
@@ -61,7 +63,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
               onClick={handleNav}
             >
               <Icon size={18} />
-              {label}
+              {t(key)}
             </Link>
           ))}
         </nav>
@@ -78,7 +80,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
           )}
           <button className={styles.logoutBtn} onClick={handleLogout}>
             <LogOut size={18} />
-            Deconnexion
+            {t('nav.logout')}
           </button>
         </div>
       </aside>

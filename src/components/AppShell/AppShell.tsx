@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Menu } from 'lucide-react';
 import { useStore } from '@/lib/store';
+import { useI18n } from '@/lib/i18n';
 import Sidebar from '@/components/Sidebar/Sidebar';
 import QuickExpense from '@/components/QuickExpense/QuickExpense';
 import styles from './AppShell.module.scss';
@@ -16,6 +17,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const { state } = useStore();
+  const { t } = useI18n();
   const [redirecting, setRedirecting] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const touchStart = useRef<{ x: number; y: number; edge: boolean } | null>(null);
@@ -68,7 +70,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   // Loading or redirecting
   if (state.loading || redirecting) {
-    return <div className={styles.loading}>Chargement...</div>;
+    return <div className={styles.loading}>{t('d.loading')}</div>;
   }
 
   return (
@@ -81,7 +83,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <button
           className={styles.hamburger}
           onClick={() => setSidebarOpen(true)}
-          aria-label="Ouvrir le menu"
+          aria-label="Menu"
         >
           <Menu size={22} />
         </button>
