@@ -26,9 +26,18 @@ export default function LoginPage() {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
         body: JSON.stringify({ email, password, totpCode: totpCode || undefined }),
       });
-      const data = await res.json();
+
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        setError(`Erreur serveur (${res.status} — reponse non-JSON)`);
+        setLoading(false);
+        return;
+      }
 
       if (!res.ok) {
         if (data.requires2FA) {
@@ -41,9 +50,15 @@ export default function LoginPage() {
         return;
       }
 
-      router.push(data.onboarded ? '/dashboard' : '/onboarding');
+      // Use window.location for PWA standalone mode where router.push may not work
+      const target = data.onboarded ? '/dashboard' : '/onboarding';
+      if (window.matchMedia('(display-mode: standalone)').matches) {
+        window.location.href = target;
+      } else {
+        router.push(target);
+      }
     } catch (err) {
-      setError(`Erreur reseau: ${err instanceof Error ? err.message : 'connexion impossible'}`);
+      setError(`Erreur reseau: ${err instanceof Error ? err.message : String(err)}`);
       setLoading(false);
     }
   };

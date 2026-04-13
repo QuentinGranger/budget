@@ -125,8 +125,8 @@ function applySecurityHeaders(response: NextResponse, nonce?: string): NextRespo
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=(), usb=()');
   response.headers.set('X-XSS-Protection', '1; mode=block');
-  response.headers.set('Cross-Origin-Opener-Policy', 'same-origin');
-  response.headers.set('Cross-Origin-Embedder-Policy', 'credentialless');
+  response.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+  // COEP disabled — interferes with PWA standalone mode and cross-origin fonts
   response.headers.set('X-DNS-Prefetch-Control', 'off');
 
   if (nonce) {

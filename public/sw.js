@@ -1,4 +1,4 @@
-const CACHE_NAME = 'capbudget-v1';
+const CACHE_NAME = 'capbudget-v2';
 const STATIC_ASSETS = [
   '/manifest.json',
   '/logo.png',
@@ -34,9 +34,8 @@ self.addEventListener('fetch', (event) => {
   // API calls — network only (no caching)
   if (url.pathname.startsWith('/api/')) return;
 
-  // Static assets only — cache first
-  // NEVER cache HTML pages (they contain sensitive financial data)
-  if (STATIC_ASSETS.includes(url.pathname) || url.pathname.match(/\.(png|jpg|jpeg|svg|ico|woff2?|css|js)$/)) {
+  // Static assets only — cache first (images & fonts only, never JS/CSS to avoid stale nonces)
+  if (STATIC_ASSETS.includes(url.pathname) || url.pathname.match(/\.(png|jpg|jpeg|svg|ico|woff2?)$/)) {
     event.respondWith(
       caches.match(request).then((cached) => {
         if (cached) return cached;
