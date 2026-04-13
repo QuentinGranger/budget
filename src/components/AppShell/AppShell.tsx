@@ -5,6 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Menu } from 'lucide-react';
 import { useStore } from '@/lib/store';
 import Sidebar from '@/components/Sidebar/Sidebar';
+import QuickExpense from '@/components/QuickExpense/QuickExpense';
 import styles from './AppShell.module.scss';
 
 const NO_SHELL_PATHS = ['/login', '/forgot-password', '/reset-password', '/onboarding', '/verify-email'];
@@ -88,6 +89,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       </header>
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <main className={styles.main}>{children}</main>
+      <QuickExpense />
     </div>
   );
 }

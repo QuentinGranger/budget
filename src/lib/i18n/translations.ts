@@ -525,6 +525,15 @@ const fr: Dict = {
   'o.start': 'Commencer',
   'o.error': 'Erreur',
   'o.networkError': 'Erreur reseau',
+
+  // Quick Expense FAB
+  'qe.title': 'Depense rapide',
+  'qe.category': 'Categorie',
+  'qe.amount': 'Montant',
+  'qe.description': 'Description (optionnel)',
+  'qe.add': 'Ajouter',
+  'qe.adding': 'Ajout...',
+  'qe.added': 'Depense ajoutee',
 };
 
 // ── English ─────────────────────────────────────────────────────────────────
@@ -1009,6 +1018,15 @@ const en: Dict = {
   'o.start': 'Get started',
   'o.error': 'Error',
   'o.networkError': 'Network error',
+
+  // Quick Expense FAB
+  'qe.title': 'Quick expense',
+  'qe.category': 'Category',
+  'qe.amount': 'Amount',
+  'qe.description': 'Description (optional)',
+  'qe.add': 'Add',
+  'qe.adding': 'Adding...',
+  'qe.added': 'Expense added',
 };
 
 // ── Dutch (Nederlands) ──────────────────────────────────────────────────────
@@ -1493,6 +1511,15 @@ const nl: Dict = {
   'o.start': 'Beginnen',
   'o.error': 'Fout',
   'o.networkError': 'Netwerkfout',
+
+  // Quick Expense FAB
+  'qe.title': 'Snelle uitgave',
+  'qe.category': 'Categorie',
+  'qe.amount': 'Bedrag',
+  'qe.description': 'Beschrijving (optioneel)',
+  'qe.add': 'Toevoegen',
+  'qe.adding': 'Toevoegen...',
+  'qe.added': 'Uitgave toegevoegd',
 };
 
 // ── Public API ──────────────────────────────────────────────────────────────
