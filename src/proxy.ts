@@ -78,14 +78,14 @@ function buildCsp(nonce: string): string {
   // - 'unsafe-eval' only in dev (React error overlay, HMR)
   // - 'unsafe-inline' for style-src in dev (HMR injects inline styles)
   const scriptSrc = `'self' 'nonce-${nonce}' 'strict-dynamic'${isDev ? " 'unsafe-eval'" : ''}`;
-  const styleSrc = isDev ? `'self' 'unsafe-inline'` : `'self' 'nonce-${nonce}'`;
+  const styleSrc = `'self' 'unsafe-inline' https://fonts.googleapis.com`;
 
   return [
     `default-src 'self'`,
     `script-src ${scriptSrc}`,
     `style-src ${styleSrc}`,
     `img-src 'self' data: blob:`,
-    `font-src 'self'`,
+    `font-src 'self' https://fonts.gstatic.com`,
     `connect-src 'self'`,
     `object-src 'none'`,
     `base-uri 'self'`,
