@@ -55,8 +55,11 @@ export async function POST(req: NextRequest) {
 
     // Send verification email (must await on serverless platforms)
     try {
+      console.log('[REGISTER] Sending verification email to:', normalizedEmail.replace(/(.{2}).*(@.*)/, '$1***$2'));
       await sendVerificationEmail(normalizedEmail, verifyToken);
+      console.log('[REGISTER] Verification email sent successfully');
     } catch (err) {
+      console.error('[REGISTER] Email send FAILED:', err instanceof Error ? err.message : String(err));
       safeError('Failed to send verification email', err);
     }
 
