@@ -5,32 +5,39 @@
   position: fixed;
   bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   right: 24px;
-  width: 56px;
-  height: 56px;
+  width: 58px;
+  height: 58px;
   border-radius: 50%;
-  border: none;
+  border: 2px solid rgba($accent-gold-light, 0.3);
   background: $gradient-gold;
   color: $bg-primary;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 6px 24px rgba($accent-gold, 0.35), 0 2px 8px rgba(0, 0, 0, 0.4);
+  box-shadow:
+    0 6px 24px rgba($accent-gold, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   z-index: 200;
   transition: all $transition-normal;
   cursor: pointer;
 
   &:hover {
     transform: scale(1.08);
-    box-shadow: 0 8px 32px rgba($accent-gold, 0.45), 0 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 8px 32px rgba($accent-gold, 0.5), 0 2px 8px rgba(0, 0, 0, 0.5);
   }
 
   &:active {
-    transform: scale(0.95);
+    transform: scale(0.92);
   }
 }
 
 .fabOpen {
   transform: rotate(45deg);
+  background: $bg-card-solid;
+  color: $text-primary;
+  border-color: $border-color-light;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
   &:hover { transform: rotate(45deg) scale(1.08); }
 }
 
@@ -38,10 +45,12 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 201;
   animation: fadeIn 200ms ease-out;
+  transition: opacity 200ms ease;
 }
 
 // ── Sheet (bottom sheet on mobile, centered card on desktop) ──
@@ -51,34 +60,62 @@
   left: 0;
   right: 0;
   z-index: 202;
-  background: $gradient-card;
-  border-top: 1px solid $border-color;
-  border-radius: $radius-xl $radius-xl 0 0;
-  padding: 20px 20px calc(20px + env(safe-area-inset-bottom, 0px));
-  box-shadow: 0 -12px 48px rgba(0, 0, 0, 0.5);
-  animation: slideUp 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  max-height: 85vh;
+  background: linear-gradient(180deg, #141420 0%, #0c0c14 100%);
+  border-top: 1px solid $border-color-light;
+  border-radius: 24px 24px 0 0;
+  padding: 0 20px calc(20px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -16px 64px rgba(0, 0, 0, 0.6), 0 -1px 0 rgba($accent-gold, 0.08);
+  animation: slideUp 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  max-height: 90vh;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  transition: transform 300ms cubic-bezier(0.32, 0.72, 0, 1);
+  touch-action: pan-y;
+  will-change: transform;
+}
 
-  &::before {
-    content: '';
-    display: block;
-    width: 36px;
-    height: 4px;
-    border-radius: 2px;
-    background: rgba(255, 255, 255, 0.15);
-    margin: 0 auto 16px;
+// ── Drag Handle ──
+.dragHandle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 0 8px;
+  cursor: grab;
+
+  &:active { cursor: grabbing; }
+}
+
+.dragBar {
+  width: 40px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.18);
+  transition: background $transition-fast;
+
+  .dragHandle:active & {
+    background: rgba($accent-gold, 0.4);
   }
+}
+
+.dragHint {
+  color: rgba(255, 255, 255, 0.12);
+  animation: bobDown 2s ease-in-out infinite;
+}
+
+@keyframes bobDown {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(2px); }
 }
 
 .sheetHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 
   h3 {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
     font-family: 'Playfair Display', Georgia, serif;
     @include gold-text;
@@ -102,6 +139,7 @@
   &:hover {
     border-color: $border-color-light;
     color: $text-primary;
+    background: rgba(255, 255, 255, 0.04);
   }
 }
 
@@ -109,7 +147,92 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
+}
+
+// ── Amount Section ──
+.amountSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border-radius: $radius-md;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid $border-color;
+}
+
+.amountRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.amountInput {
+  flex: 1;
+  padding: 12px 0;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid $border-color;
+  color: $accent-gold-light;
+  font-size: 32px;
+  font-weight: 700;
+  font-family: 'Playfair Display', Georgia, serif;
+  text-align: center;
+  transition: all $transition-normal;
+
+  &:focus {
+    outline: none;
+    border-bottom-color: $accent-gold;
+    box-shadow: 0 2px 12px rgba($accent-gold, 0.08);
+  }
+
+  &::placeholder {
+    color: $text-muted;
+    font-weight: 400;
+    font-size: 28px;
+  }
+}
+
+.amountCurrency {
+  font-size: 14px;
+  font-weight: 700;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding-right: 4px;
+}
+
+// ── Quick Amount Buttons ──
+.quickAmounts {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.quickAmountBtn {
+  padding: 6px 14px;
+  border-radius: 16px;
+  border: 1px solid $border-color;
+  background: transparent;
+  color: $text-secondary;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition-fast;
+  -webkit-tap-highlight-color: transparent;
+
+  &:hover {
+    border-color: rgba($accent-gold, 0.4);
+    color: $accent-gold;
+    background: rgba($accent-gold, 0.06);
+  }
+
+  &:active {
+    transform: scale(0.93);
+    background: rgba($accent-gold, 0.12);
+    border-color: rgba($accent-gold, 0.6);
+    color: $accent-gold-light;
+  }
 }
 
 // ── Category Chips ──
@@ -117,13 +240,16 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  max-height: 120px;
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
 .categoryChip {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 14px;
+  padding: 7px 12px;
   border-radius: 20px;
   border: 1px solid $border-color;
   background: rgba(0, 0, 0, 0.2);
@@ -133,16 +259,21 @@
   cursor: pointer;
   transition: all $transition-fast;
   white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
 
   &:hover {
     border-color: $border-color-light;
     color: $text-primary;
   }
+
+  &:active {
+    transform: scale(0.95);
+  }
 }
 
 .categoryChipActive {
   border-color: rgba($accent-gold, 0.5);
-  background: rgba($accent-gold, 0.08);
+  background: rgba($accent-gold, 0.1);
   color: $accent-gold;
   box-shadow: 0 0 12px rgba($accent-gold, 0.1);
 }
@@ -151,41 +282,91 @@
   font-size: 14px;
 }
 
-// ── Amount Row ──
-.amountRow {
+// ── Pillar indicator ──
+.pillarRow {
   display: flex;
-  gap: 10px;
-  align-items: stretch;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: $radius-sm;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid $border-color;
+  font-size: 11px;
+  color: $text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  transition: all $transition-fast;
 }
 
-.amountInput {
-  flex: 1;
-  padding: 14px 16px;
+.pillarOver {
+  border-color: rgba($color-danger, 0.3);
+  background: rgba($color-danger, 0.06);
+
+  .pillarImpact { color: $color-danger; }
+}
+
+.pillarImpact {
+  margin-left: auto;
+  font-size: 10px;
+  color: $text-muted;
+  letter-spacing: 0.04em;
+  font-weight: 500;
+  text-transform: none;
+}
+
+.pillarDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.pillarNeeds { background: $color-needs; }
+.pillarWants { background: $color-wants; }
+.pillarSavings { background: $color-savings; }
+
+// ── Meta row (date + description) ──
+.metaRow {
+  display: flex;
+  gap: 10px;
+}
+
+.dateField {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.dateIcon {
+  position: absolute;
+  left: 10px;
+  color: $text-muted;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dateInput {
+  padding: 10px 10px 10px 30px;
   background: $bg-input;
   border: 1px solid $border-color;
   border-radius: $radius-sm;
   color: $text-primary;
-  font-size: 20px;
-  font-weight: 700;
-  font-family: 'Playfair Display', Georgia, serif;
-  text-align: center;
-  transition: all $transition-normal;
+  font-size: 12px;
+  width: 130px;
+  transition: all $transition-fast;
+  color-scheme: dark;
 
   &:focus {
     outline: none;
-    border-color: rgba($accent-gold, 0.5);
-    box-shadow: 0 0 0 3px rgba($accent-gold, 0.08);
-  }
-
-  &::placeholder {
-    color: $text-muted;
-    font-weight: 400;
-    font-size: 16px;
-    font-family: 'Inter', sans-serif;
+    border-color: rgba($accent-gold, 0.4);
   }
 }
 
 .descInput {
+  flex: 1;
+  min-width: 0;
   padding: 10px 14px;
   background: $bg-input;
   border: 1px solid $border-color;
@@ -196,8 +377,8 @@
 
   &:focus {
     outline: none;
-    border-color: rgba($accent-gold, 0.5);
-    box-shadow: 0 0 0 3px rgba($accent-gold, 0.08);
+    border-color: rgba($accent-gold, 0.4);
+    box-shadow: 0 0 0 3px rgba($accent-gold, 0.06);
   }
 
   &::placeholder {
@@ -205,62 +386,55 @@
   }
 }
 
-// ── Pillar indicator ──
-.pillarRow {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border-radius: $radius-sm;
-  background: rgba(0, 0, 0, 0.15);
-  border: 1px solid $border-color;
-  font-size: 11px;
-  color: $text-muted;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-weight: 600;
-}
-
-.pillarDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-.pillarNeeds { background: $color-needs; }
-.pillarWants { background: $color-wants; }
-.pillarSavings { background: $color-savings; }
-
 // ── Submit ──
 .submitBtn {
-  padding: 14px;
+  padding: 16px;
   background: $gradient-gold;
   color: $bg-primary;
   border: none;
-  border-radius: $radius-sm;
+  border-radius: $radius-md;
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  box-shadow: 0 4px 16px rgba($accent-gold, 0.25);
+  box-shadow: 0 4px 20px rgba($accent-gold, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
   transition: all $transition-normal;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  -webkit-tap-highlight-color: transparent;
 
   &:hover {
-    box-shadow: 0 6px 24px rgba($accent-gold, 0.35);
+    box-shadow: 0 6px 28px rgba($accent-gold, 0.4);
     transform: translateY(-1px);
   }
 
+  &:active {
+    transform: scale(0.97);
+  }
+
   &:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
   }
+}
+
+// ── Spinner ──
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba($bg-primary, 0.3);
+  border-top-color: $bg-primary;
+  border-radius: 50%;
+  animation: spin 600ms linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 // ── Success toast ──
@@ -269,10 +443,12 @@
   bottom: calc(96px + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
-  padding: 10px 24px;
-  background: rgba($color-success, 0.15);
-  border: 1px solid rgba($color-success, 0.3);
-  border-radius: 20px;
+  padding: 12px 28px;
+  background: rgba($color-success, 0.12);
+  border: 1px solid rgba($color-success, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 24px;
   color: $color-success;
   font-size: 13px;
   font-weight: 600;
@@ -280,6 +456,9 @@
   animation: fadeInUp 300ms ease-out;
   pointer-events: none;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 // ── Field label ──
@@ -317,14 +496,16 @@
     right: auto;
     transform: translate(-50%, -50%);
     border-radius: $radius-xl;
-    border: 1px solid $border-color;
-    max-width: 440px;
+    border: 1px solid $border-color-light;
+    max-width: 460px;
     width: 90%;
     animation: fadeIn 200ms ease-out;
-    padding: 28px 28px 28px;
-
-    &::before { display: none; }
+    padding: 0 28px 28px;
   }
+
+  .dragHint { display: none; }
+
+  .categoryGrid { max-height: 160px; }
 }
 
 // ── Mobile small ──
@@ -332,17 +513,25 @@
   .fab {
     bottom: calc(16px + env(safe-area-inset-bottom, 0px));
     right: 16px;
-    width: 52px;
-    height: 52px;
+    width: 54px;
+    height: 54px;
   }
 
   .amountInput {
-    font-size: 18px;
-    padding: 12px 14px;
+    font-size: 26px;
   }
 
   .categoryChip {
     padding: 6px 10px;
     font-size: 11px;
   }
+
+  .quickAmountBtn {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+
+  .dateInput { width: 115px; }
+
+  .metaRow { flex-direction: column; }
 }
