@@ -47,12 +47,16 @@ export async function sendVerificationEmail(email: string, token: string) {
     <p style="margin-top:24px;font-size:12px;color:#6a6a82;">Ce lien expire dans 24 heures.</p>
   `);
 
-  await getResend().emails.send({
+  const result = await getResend().emails.send({
     from: getFromEmail(),
     to: email,
     subject: 'Verifiez votre email — CapBudget',
     html,
   });
+  if (result.error) {
+    throw new Error(`Resend error: ${result.error.message}`);
+  }
+  console.log('[EMAIL] Sent verification email, id:', result.data?.id);
 }
 
 export async function sendResetPasswordEmail(email: string, token: string) {
@@ -69,10 +73,14 @@ export async function sendResetPasswordEmail(email: string, token: string) {
     <p style="margin-top:24px;font-size:12px;color:#6a6a82;">Ce lien expire dans 1 heure. Si vous n'avez pas fait cette demande, ignorez cet email.</p>
   `);
 
-  await getResend().emails.send({
+  const result = await getResend().emails.send({
     from: getFromEmail(),
     to: email,
     subject: 'Reinitialisation de mot de passe — CapBudget',
     html,
   });
+  if (result.error) {
+    throw new Error(`Resend error: ${result.error.message}`);
+  }
+  console.log('[EMAIL] Sent reset email, id:', result.data?.id);
 }
