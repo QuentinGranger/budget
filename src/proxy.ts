@@ -106,6 +106,7 @@ function buildCsp(nonce: string): string {
     `default-src 'self'`,
     `script-src ${scriptSrc}`,
     `style-src ${styleSrc}`,
+    `style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com`,
     `img-src 'self' data: blob:`,
     `font-src 'self' https://fonts.gstatic.com`,
     `connect-src 'self'`,
