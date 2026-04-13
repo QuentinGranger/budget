@@ -39,6 +39,7 @@ export async function POST(req: NextRequest) {
 
     // Email must be verified before login
     if (!user.emailVerified) {
+      console.log('[LOGIN] Rejected: email not verified for user', user.id);
       return NextResponse.json({ error: 'Veuillez verifier votre email avant de vous connecter.' }, { status: 403 });
     }
 

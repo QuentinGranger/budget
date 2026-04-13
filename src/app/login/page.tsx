@@ -36,14 +36,14 @@ export default function LoginPage() {
           setLoading(false);
           return;
         }
-        setError(data.error || 'Erreur de connexion');
+        setError(data.error || `Erreur ${res.status}`);
         setLoading(false);
         return;
       }
 
       router.push(data.onboarded ? '/dashboard' : '/onboarding');
-    } catch {
-      setError('Erreur reseau');
+    } catch (err) {
+      setError(`Erreur reseau: ${err instanceof Error ? err.message : 'connexion impossible'}`);
       setLoading(false);
     }
   };

@@ -162,9 +162,16 @@ export async function proxy(req: NextRequest) {
     return applySecurityHeaders(nextWithNonce(), nonce);
   }
 
-  // CSRF check on ALL API mutations (including public auth routes)
-  if (pathname.startsWith('/api/') && !CSRF_SAFE_METHODS.has(req.method)) {
+  // CSRF check on API mutations — skip public auth routes (they have rate-limiting + password)
+  if (pathname.startsWith('/api/') && !CSRF_SAFE_METHODS.has(req.method) && !isPublic(pathname)) {
     if (!checkCsrf(req)) {
+      console.warn('[CSRF] Blocked:', req.method, pathname, {
+        origin: req.headers.get('origin'),
+        referer: req.headers.get('referer'),
+        fetchSite: req.headers.get('sec-fetch-site'),
+        fetchMode: req.headers.get('sec-fetch-mode'),
+        ua: (req.headers.get('user-agent') || '').slice(0, 80),
+      });
       return applySecurityHeaders(
         NextResponse.json({ error: 'Requete cross-origin non autorisee' }, { status: 403 })
       );
