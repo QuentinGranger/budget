@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
 
     const { email, password, totpCode } = await req.json();
     if (!email || !password) {
-      return NextResponse.json({ error: 'Email et mot de passe requis' }, { status: 400 });
+      return NextResponse.json({ error: 'api.emailPasswordRequired' }, { status: 400 });
     }
 
     const normalizedEmail = email.toLowerCase().trim();
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
     // Email must be verified before login
     if (!user.emailVerified) {
       console.log('[LOGIN] Rejected: email not verified for user', user.id);
-      return NextResponse.json({ error: 'Veuillez verifier votre email avant de vous connecter.' }, { status: 403 });
+      return NextResponse.json({ error: 'api.verifyEmailFirst' }, { status: 403 });
     }
 
     const valid = await verifyPassword(password, user.passwordHash);
@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
       const delta = totp.validate({ token: totpCode, window: 1 });
       if (delta === null) {
         auditLog(user.id, 'login:failed', undefined, { reason: 'invalid_2fa' }, ip).catch(() => {});
-        return NextResponse.json({ error: 'Code 2FA invalide' }, { status: 401 });
+        return NextResponse.json({ error: 'api.invalid2FA' }, { status: 401 });
       }
     }
 
@@ -92,6 +92,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, onboarded: user.onboarded });
   } catch (err) {
     safeError('POST /api/auth/login', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }

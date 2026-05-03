@@ -38,7 +38,7 @@ export async function GET() {
     return NextResponse.json(decryptedUsers);
   } catch (err) {
     safeError('GET /api/admin/users', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }
 
@@ -49,14 +49,14 @@ export async function DELETE(req: NextRequest) {
     if (isAuthError(auth)) return auth;
 
     const id = req.nextUrl.searchParams.get('id');
-    if (!id) return NextResponse.json({ error: 'ID requis' }, { status: 400 });
+    if (!id) return NextResponse.json({ error: 'api.idRequired' }, { status: 400 });
 
     if (id === auth.userId) {
-      return NextResponse.json({ error: 'Impossible de supprimer votre propre compte via admin' }, { status: 400 });
+      return NextResponse.json({ error: 'api.cannotDeleteSelfAdmin' }, { status: 400 });
     }
 
     const user = await prisma.user.findUnique({ where: { id }, select: { id: true, name: true } });
-    if (!user) return NextResponse.json({ error: 'Utilisateur introuvable' }, { status: 404 });
+    if (!user) return NextResponse.json({ error: 'api.userNotFound' }, { status: 404 });
 
     await prisma.user.delete({ where: { id } });
 
@@ -67,6 +67,6 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ ok: true });
   } catch (err) {
     safeError('DELETE /api/admin/users', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }

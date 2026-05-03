@@ -11,16 +11,16 @@ export async function POST(req: NextRequest) {
     const ip = getClientIp(req);
     const rl = await checkRateLimit(ip);
     if (!rl.allowed) {
-      return NextResponse.json({ error: 'Trop de tentatives. Reessayez plus tard.' }, { status: 429 });
+      return NextResponse.json({ error: 'api.rateLimited' }, { status: 429 });
     }
 
     const { email } = await req.json();
     if (!email) {
-      return NextResponse.json({ error: 'Email requis' }, { status: 400 });
+      return NextResponse.json({ error: 'api.emailRequired' }, { status: 400 });
     }
 
     // Always return success to avoid email enumeration
-    const successMsg = { ok: true, message: 'Si un compte existe, un email de reinitialisation a ete envoye.' };
+    const successMsg = { ok: true, message: 'auth.resetSent' };
 
     const normalizedEmail = email.toLowerCase().trim();
     const emailHashValue = hmacHash(normalizedEmail);
@@ -49,6 +49,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(successMsg);
   } catch (err) {
     safeError('POST /api/auth/forgot-password', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }

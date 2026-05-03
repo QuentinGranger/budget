@@ -15,9 +15,9 @@ export async function POST() {
     });
 
     auditLog(auth.userId, '2fa:disabled').catch(() => {});
-    return NextResponse.json({ ok: true, message: '2FA desactive' });
+    return NextResponse.json({ ok: true, message: 'api.2faDisabled' });
   } catch (err) {
     safeError('POST /api/auth/2fa/disable', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }

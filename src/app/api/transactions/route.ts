@@ -30,7 +30,7 @@ export async function GET() {
     return NextResponse.json(decrypted);
   } catch (err) {
     safeError('GET /api/transactions', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }
 
@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
 
     const category = await prisma.category.findUnique({ where: { id: vCatId.value } });
     if (!category) {
-      return NextResponse.json({ error: 'Categorie introuvable' }, { status: 400 });
+      return NextResponse.json({ error: 'api.categoryNotFound' }, { status: 400 });
     }
 
     const transaction = await prisma.transaction.create({
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (err) {
     safeError('POST /api/transactions', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }
 
@@ -95,11 +95,11 @@ export async function PUT(req: NextRequest) {
     const body = await req.json();
     const { id, ...raw } = body;
 
-    if (!id) return NextResponse.json({ error: 'ID requis' }, { status: 400 });
+    if (!id) return NextResponse.json({ error: 'api.idRequired' }, { status: 400 });
 
     const ownership = await verifyOwnership('transaction', id, auth, true);
     if (!ownership.owned) {
-      return NextResponse.json({ error: 'Acces refuse' }, { status: 403 });
+      return NextResponse.json({ error: 'api.accessDenied' }, { status: 403 });
     }
 
     const data: Record<string, unknown> = {};
@@ -144,7 +144,7 @@ export async function PUT(req: NextRequest) {
     });
   } catch (err) {
     safeError('PUT /api/transactions', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }
 
@@ -155,17 +155,17 @@ export async function DELETE(req: NextRequest) {
     if (isAuthError(auth)) return auth;
 
     const id = req.nextUrl.searchParams.get('id');
-    if (!id) return NextResponse.json({ error: 'ID requis' }, { status: 400 });
+    if (!id) return NextResponse.json({ error: 'api.idRequired' }, { status: 400 });
 
     const ownership = await verifyOwnership('transaction', id, auth, true);
     if (!ownership.owned) {
-      return NextResponse.json({ error: 'Acces refuse' }, { status: 403 });
+      return NextResponse.json({ error: 'api.accessDenied' }, { status: 403 });
     }
 
     await prisma.transaction.delete({ where: { id } });
     return NextResponse.json({ ok: true });
   } catch (err) {
     safeError('DELETE /api/transactions', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }

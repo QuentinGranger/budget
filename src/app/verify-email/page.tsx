@@ -37,10 +37,10 @@ function VerifyEmailContent() {
         const data = await res.json();
         if (res.ok) {
           setStatus('success');
-          setMessage(data.message || t('auth.verifySuccess'));
+          setMessage(t(data.message || 'auth.verifySuccess'));
         } else {
           setStatus('error');
-          setMessage(data.error || t('auth.verifyError'));
+          setMessage(t(data.error || 'auth.verifyError'));
         }
       })
       .catch(() => {

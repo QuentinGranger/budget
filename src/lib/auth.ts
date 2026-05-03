@@ -21,9 +21,9 @@ const IDLE_SESSION_TIMEOUT_MS = 7 * 24 * 60 * 60 * 1000; // 7 days idle
 export const MAX_FAILED_ATTEMPTS = 5;
 const LOCKOUT_DURATION_MS = 15 * 60 * 1000; // 15 minutes
 
-export const AUTH_ERROR_NEUTRAL = 'Email ou mot de passe incorrect';
-export const AUTH_ERROR_LOCKED = 'Compte temporairement verrouille. Reessayez plus tard.';
-export const AUTH_ERROR_RATE_LIMITED = 'Trop de tentatives. Reessayez plus tard.';
+export const AUTH_ERROR_NEUTRAL = 'api.invalidCredentials';
+export const AUTH_ERROR_LOCKED = 'api.accountLocked';
+export const AUTH_ERROR_RATE_LIMITED = 'api.rateLimited';
 export const AUTH_ERROR_2FA_REQUIRED = '2FA_REQUIRED';
 
 export const RESET_TOKEN_EXPIRY_MS = 60 * 60 * 1000; // 1 hour
@@ -44,11 +44,11 @@ export async function verifyPassword(password: string, hash: string): Promise<bo
 
 export function validatePasswordPolicy(password: string): { valid: boolean; errors: string[] } {
   const errors: string[] = [];
-  if (password.length < 8) errors.push('Au moins 8 caracteres');
-  if (!/[A-Z]/.test(password)) errors.push('Au moins une majuscule');
-  if (!/[a-z]/.test(password)) errors.push('Au moins une minuscule');
-  if (!/[0-9]/.test(password)) errors.push('Au moins un chiffre');
-  if (!/[^A-Za-z0-9]/.test(password)) errors.push('Au moins un caractere special');
+  if (password.length < 8) errors.push('api.pwd8chars');
+  if (!/[A-Z]/.test(password)) errors.push('api.pwdUppercase');
+  if (!/[a-z]/.test(password)) errors.push('api.pwdLowercase');
+  if (!/[0-9]/.test(password)) errors.push('api.pwdDigit');
+  if (!/[^A-Za-z0-9]/.test(password)) errors.push('api.pwdSpecial');
   return { valid: errors.length === 0, errors };
 }
 

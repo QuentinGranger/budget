@@ -90,7 +90,7 @@ export default function OnboardingPage() {
 
       if (!res.ok) {
         const data = await res.json();
-        setError(data.error || t('o.error'));
+        setError(t(data.error || 'o.error'));
         setLoading(false);
         return;
       }

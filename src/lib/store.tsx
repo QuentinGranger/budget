@@ -356,7 +356,7 @@ const apiActions = {
     const res = await fetch(`/api/categories?id=${id}`, { method: 'DELETE' });
     if (!res.ok) {
       const err = await res.json();
-      throw new Error(err.error || 'Failed to delete category');
+      throw new Error(err.error || 'api.serverError');
     }
     dispatch({ type: 'DELETE_CATEGORY', payload: id });
   },
@@ -389,7 +389,14 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     return [...loyerTxns, ...state.transactions];
   }, [state.user, state.transactions]);
 
-  const snapshot = useMemo(() => computeSnapshot(state, allTransactions), [state, allTransactions]);
+  const snapshot = useMemo(() => {
+    try {
+      return computeSnapshot(state, allTransactions);
+    } catch (err) {
+      console.error('[Store] computeSnapshot crashed:', err, { txCount: allTransactions.length, user: !!state.user });
+      return null;
+    }
+  }, [state, allTransactions]);
 
   const value = useMemo(() => ({ state, snapshot, allTransactions, dispatch, actions: apiActions }), [state, snapshot, allTransactions]);
 

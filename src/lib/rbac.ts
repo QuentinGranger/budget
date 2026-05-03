@@ -72,15 +72,15 @@ export function isAdmin(auth: AuthContext): boolean {
 
 export async function requireAuth(): Promise<AuthContext | NextResponse> {
   const auth = await authenticate();
-  if (!auth) return NextResponse.json({ error: 'Non authentifie' }, { status: 401 });
+  if (!auth) return NextResponse.json({ error: 'api.notAuthenticated' }, { status: 401 });
   return auth;
 }
 
 export async function requireRole(minRole: Role): Promise<AuthContext | NextResponse> {
   const auth = await authenticate();
-  if (!auth) return NextResponse.json({ error: 'Non authentifie' }, { status: 401 });
+  if (!auth) return NextResponse.json({ error: 'api.notAuthenticated' }, { status: 401 });
   if (!hasRole(auth, minRole)) {
-    return NextResponse.json({ error: 'Acces refuse' }, { status: 403 });
+    return NextResponse.json({ error: 'api.accessDenied' }, { status: 403 });
   }
   return auth;
 }

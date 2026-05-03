@@ -8,6 +8,6 @@ export async function POST() {
     return NextResponse.json({ ok: true });
   } catch (err) {
     safeError('POST /api/auth/logout', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }

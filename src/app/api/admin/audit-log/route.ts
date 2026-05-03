@@ -26,6 +26,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ logs, total, page, limit });
   } catch (err) {
     safeError('GET /api/admin/audit-log', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }

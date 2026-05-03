@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
     const ip = getClientIp(req);
     const rl = await checkAuthRateLimit(ip);
     if (!rl.allowed) {
-      return NextResponse.json({ error: 'Trop de tentatives. Reessayez plus tard.' }, { status: 429 });
+      return NextResponse.json({ error: 'api.rateLimited' }, { status: 429 });
     }
 
     const auth = await requireAuth();
@@ -20,16 +20,16 @@ export async function POST(req: NextRequest) {
     const { currentPassword, newPassword } = await req.json();
 
     if (!currentPassword || !newPassword) {
-      return NextResponse.json({ error: 'Mot de passe actuel et nouveau requis' }, { status: 400 });
+      return NextResponse.json({ error: 'api.currentAndNewRequired' }, { status: 400 });
     }
 
     if (currentPassword === newPassword) {
-      return NextResponse.json({ error: 'Le nouveau mot de passe doit etre different de l\'actuel' }, { status: 400 });
+      return NextResponse.json({ error: 'api.samePassword' }, { status: 400 });
     }
 
     const policy = validatePasswordPolicy(newPassword);
     if (!policy.valid) {
-      return NextResponse.json({ error: 'Mot de passe trop faible', details: policy.errors }, { status: 400 });
+      return NextResponse.json({ error: 'api.weakPassword', details: policy.errors }, { status: 400 });
     }
 
     const user = await prisma.user.findUnique({
@@ -38,17 +38,17 @@ export async function POST(req: NextRequest) {
     });
 
     if (!user) {
-      return NextResponse.json({ error: 'Utilisateur introuvable' }, { status: 404 });
+      return NextResponse.json({ error: 'api.userNotFound' }, { status: 404 });
     }
 
     const valid = await verifyPassword(currentPassword, user.passwordHash);
     if (!valid) {
-      return NextResponse.json({ error: 'Mot de passe actuel incorrect' }, { status: 401 });
+      return NextResponse.json({ error: 'api.wrongCurrentPassword' }, { status: 401 });
     }
 
     // L5: Check password history
     if (await isPasswordReused(auth.userId, newPassword)) {
-      return NextResponse.json({ error: 'Ce mot de passe a deja ete utilise recemment. Choisissez-en un nouveau.' }, { status: 400 });
+      return NextResponse.json({ error: 'api.passwordReused' }, { status: 400 });
     }
 
     const newHash = await hashPassword(newPassword);
@@ -62,9 +62,9 @@ export async function POST(req: NextRequest) {
     await savePasswordToHistory(auth.userId, user.passwordHash);
 
     auditLog(auth.userId, 'password:changed', undefined, undefined, ip).catch(() => {});
-    return NextResponse.json({ ok: true, message: 'Mot de passe modifie avec succes. Vos autres sessions ont ete deconnectees.' });
+    return NextResponse.json({ ok: true, message: 'api.passwordChanged' });
   } catch (err) {
     safeError('POST /api/auth/change-password', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }

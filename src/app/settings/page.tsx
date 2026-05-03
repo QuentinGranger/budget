@@ -206,7 +206,7 @@ export default function SettingsPage() {
     try {
       const res = await fetch('/api/auth/2fa/setup', { method: 'POST' });
       const data = await res.json();
-      if (!res.ok) { showToast(data.error || t('s.toastError'), 'error'); setTwoFAStep('idle'); return; }
+      if (!res.ok) { showToast(t(data.error || 's.toastError'), 'error'); setTwoFAStep('idle'); return; }
       setQrCode(data.qrCode);
       setTwoFAStep('verify');
     } catch { showToast(t('s.toastNetworkError'), 'error'); setTwoFAStep('idle'); }
@@ -217,7 +217,7 @@ export default function SettingsPage() {
     try {
       const res = await fetch('/api/auth/2fa/enable', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: totpCode }) });
       const data = await res.json();
-      if (!res.ok) { showToast(data.error || t('s.toastInvalidCode'), 'error'); return; }
+      if (!res.ok) { showToast(t(data.error || 's.toastInvalidCode'), 'error'); return; }
       showToast(t('s.toast2FAEnabled'));
       setTwoFAStep('idle');
       setQrCode(null);

@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    if (!user) return NextResponse.json({ error: 'Utilisateur introuvable' }, { status: 404 });
+    if (!user) return NextResponse.json({ error: 'api.userNotFound' }, { status: 404 });
 
     // Strip sensitive fields before returning
     const { passwordHash, tokenVersion, failedLoginAttempts, lockedUntil, resetToken, resetTokenExpiry, emailVerifyToken, totpSecret, emailHash, ...safe } = user as unknown as Record<string, unknown>;
@@ -88,6 +88,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(safe);
   } catch (err) {
     safeError('POST /api/user/onboard', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }

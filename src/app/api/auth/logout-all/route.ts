@@ -17,9 +17,9 @@ export async function POST() {
 
     auditLog(auth.userId, 'session:logout-all').catch(() => {});
     await clearSessionCookie();
-    return NextResponse.json({ ok: true, message: 'Toutes les sessions ont ete invalidees' });
+    return NextResponse.json({ ok: true, message: 'api.allSessionsInvalidated' });
   } catch (err) {
     safeError('POST /api/auth/logout-all', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }

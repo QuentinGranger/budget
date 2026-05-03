@@ -10,13 +10,13 @@ import { safeError } from '@/lib/logger';
 export async function POST() {
   try {
     const userId = await getSessionUserId();
-    if (!userId) return NextResponse.json({ error: 'Non authentifie' }, { status: 401 });
+    if (!userId) return NextResponse.json({ error: 'api.notAuthenticated' }, { status: 401 });
 
     const user = await prisma.user.findUnique({ where: { id: userId }, select: { email: true, totpEnabled: true } });
-    if (!user) return NextResponse.json({ error: 'Utilisateur introuvable' }, { status: 404 });
+    if (!user) return NextResponse.json({ error: 'api.userNotFound' }, { status: 404 });
 
     if (user.totpEnabled) {
-      return NextResponse.json({ error: '2FA deja active' }, { status: 400 });
+      return NextResponse.json({ error: 'api.2faAlreadyEnabled' }, { status: 400 });
     }
 
     const secret = new OTPAuth.Secret({ size: 20 });
@@ -44,6 +44,6 @@ export async function POST() {
     return NextResponse.json({ qrCode, secret: secret.base32 });
   } catch (err) {
     safeError('POST /api/auth/2fa/setup', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }

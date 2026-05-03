@@ -19,32 +19,32 @@ export async function PUT(req: NextRequest) {
     // Percentages (0-100, must sum to 100 if all provided)
     if (body.needsPercent !== undefined) {
       const n = safeFloat(body.needsPercent);
-      if (n === null || n < 0 || n > 100) return validationError('needsPercent doit etre entre 0 et 100');
+      if (n === null || n < 0 || n > 100) return validationError('needsPercent must be between 0 and 100');
       data.needsPercent = n;
     }
     if (body.wantsPercent !== undefined) {
       const n = safeFloat(body.wantsPercent);
-      if (n === null || n < 0 || n > 100) return validationError('wantsPercent doit etre entre 0 et 100');
+      if (n === null || n < 0 || n > 100) return validationError('wantsPercent must be between 0 and 100');
       data.wantsPercent = n;
     }
     if (body.savingsPercent !== undefined) {
       const n = safeFloat(body.savingsPercent);
-      if (n === null || n < 0 || n > 100) return validationError('savingsPercent doit etre entre 0 et 100');
+      if (n === null || n < 0 || n > 100) return validationError('savingsPercent must be between 0 and 100');
       data.savingsPercent = n;
     }
     if (body.tolerancePercent !== undefined) {
       const n = safeFloat(body.tolerancePercent);
-      if (n === null || n < 0 || n > 50) return validationError('tolerancePercent doit etre entre 0 et 50');
+      if (n === null || n < 0 || n > 50) return validationError('tolerancePercent must be between 0 and 50');
       data.tolerancePercent = n;
     }
     if (body.budgetStartDay !== undefined) {
       const n = safeInt(body.budgetStartDay);
-      if (n === null || n < 1 || n > 28) return validationError('budgetStartDay doit etre entre 1 et 28');
+      if (n === null || n < 1 || n > 28) return validationError('budgetStartDay must be between 1 and 28');
       data.budgetStartDay = n;
     }
     if (body.monthlyFixedExpenses !== undefined) {
       const n = safeFloat(body.monthlyFixedExpenses);
-      if (n === null || n < 0 || n > 999999) return validationError('monthlyFixedExpenses doit etre entre 0 et 999999');
+      if (n === null || n < 0 || n > 999999) return validationError('monthlyFixedExpenses must be between 0 and 999999');
       data.monthlyFixedExpenses = n;
     }
     if (body.strictMode !== undefined) data.strictMode = optionalBool(body.strictMode) ?? false;
@@ -78,6 +78,6 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json(settings);
   } catch (err) {
     safeError('PUT /api/settings', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }

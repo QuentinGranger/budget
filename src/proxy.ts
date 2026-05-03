@@ -174,7 +174,7 @@ export async function proxy(req: NextRequest) {
         ua: (req.headers.get('user-agent') || '').slice(0, 80),
       });
       return applySecurityHeaders(
-        NextResponse.json({ error: 'Requete cross-origin non autorisee' }, { status: 403 })
+        NextResponse.json({ error: 'Cross-origin request not allowed' }, { status: 403 })
       );
     }
   }
@@ -182,7 +182,7 @@ export async function proxy(req: NextRequest) {
   // Body size limit on ALL API routes
   if (pathname.startsWith('/api/') && isBodyTooLarge(req)) {
     return applySecurityHeaders(
-      NextResponse.json({ error: 'Corps de requete trop volumineux (max 1 Mo)' }, { status: 413 })
+      NextResponse.json({ error: 'Request body too large (max 1 MB)' }, { status: 413 })
     );
   }
 

@@ -22,7 +22,7 @@ export async function GET() {
     return NextResponse.json(goals);
   } catch (err) {
     safeError('GET /api/goals', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }
 
@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(goal);
   } catch (err) {
     safeError('POST /api/goals', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }
 
@@ -76,11 +76,11 @@ export async function PUT(req: NextRequest) {
     const body = await req.json();
     const { id, ...data } = body;
 
-    if (!id) return NextResponse.json({ error: 'ID requis' }, { status: 400 });
+    if (!id) return NextResponse.json({ error: 'api.idRequired' }, { status: 400 });
 
     const ownership = await verifyOwnership('goal', id, auth, true);
     if (!ownership.owned) {
-      return NextResponse.json({ error: 'Acces refuse' }, { status: 403 });
+      return NextResponse.json({ error: 'api.accessDenied' }, { status: 403 });
     }
 
     const update: Record<string, unknown> = {};
@@ -96,7 +96,7 @@ export async function PUT(req: NextRequest) {
     }
     if (data.currentAmount !== undefined) {
       const n = safeFloat(data.currentAmount);
-      if (n === null || n < 0) return validationError('currentAmount doit etre un nombre >= 0');
+      if (n === null || n < 0) return validationError('currentAmount must be a number >= 0');
       update.currentAmount = n;
     }
     if (data.targetDate !== undefined) {
@@ -116,7 +116,7 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json(goal);
   } catch (err) {
     safeError('PUT /api/goals', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }
 
@@ -127,17 +127,17 @@ export async function DELETE(req: NextRequest) {
     if (isAuthError(auth)) return auth;
 
     const id = req.nextUrl.searchParams.get('id');
-    if (!id) return NextResponse.json({ error: 'ID requis' }, { status: 400 });
+    if (!id) return NextResponse.json({ error: 'api.idRequired' }, { status: 400 });
 
     const ownership = await verifyOwnership('goal', id, auth, true);
     if (!ownership.owned) {
-      return NextResponse.json({ error: 'Acces refuse' }, { status: 403 });
+      return NextResponse.json({ error: 'api.accessDenied' }, { status: 403 });
     }
 
     await prisma.goal.delete({ where: { id } });
     return NextResponse.json({ ok: true });
   } catch (err) {
     safeError('DELETE /api/goals', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }

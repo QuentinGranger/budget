@@ -47,7 +47,7 @@ export default function LoginPage() {
           setLoading(false);
           return;
         }
-        setError(data.error || t('auth.errorStatus', { status: res.status }));
+        setError(t(data.error || 'auth.errorStatus', { status: res.status }));
         setLoading(false);
         return;
       }
@@ -79,13 +79,16 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || t('auth.error'));
-        if (data.details) setError(data.details.join(', '));
+        if (data.details) {
+          setError(data.details.map((k: string) => t(k)).join(', '));
+        } else {
+          setError(t(data.error || 'auth.error'));
+        }
         setLoading(false);
         return;
       }
 
-      setSuccess(data.message || t('auth.registerSuccess'));
+      setSuccess(t(data.message || 'auth.registerSuccess'));
       setMode('login');
       setLoading(false);
     } catch {

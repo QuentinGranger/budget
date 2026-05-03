@@ -8,12 +8,12 @@ export async function POST(req: NextRequest) {
   try {
     const { token } = await req.json();
     if (!token) {
-      return NextResponse.json({ error: 'Token manquant' }, { status: 400 });
+      return NextResponse.json({ error: 'api.tokenMissing' }, { status: 400 });
     }
 
     const email = await verifyPurposeToken(token, 'email-verify');
     if (!email) {
-      return NextResponse.json({ error: 'Token invalide ou expire' }, { status: 400 });
+      return NextResponse.json({ error: 'api.invalidOrExpiredToken' }, { status: 400 });
     }
 
     const user = await prisma.user.findFirst({
@@ -21,11 +21,11 @@ export async function POST(req: NextRequest) {
     });
 
     if (!user) {
-      return NextResponse.json({ error: 'Token invalide' }, { status: 400 });
+      return NextResponse.json({ error: 'api.invalidToken' }, { status: 400 });
     }
 
     if (user.emailVerified) {
-      return NextResponse.json({ ok: true, message: 'Email deja verifie' });
+      return NextResponse.json({ ok: true, message: 'api.emailVerified' });
     }
 
     await prisma.user.update({
@@ -33,9 +33,9 @@ export async function POST(req: NextRequest) {
       data: { emailVerified: true, emailVerifyToken: null },
     });
 
-    return NextResponse.json({ ok: true, message: 'Email verifie avec succes' });
+    return NextResponse.json({ ok: true, message: 'api.emailVerified' });
   } catch (err) {
     safeError('POST /api/auth/verify-email', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }

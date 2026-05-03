@@ -43,7 +43,7 @@ function ResetPasswordContent() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || (data.details ? data.details.join(', ') : t('auth.error')));
+        setError(data.details ? data.details.map((k: string) => t(k)).join(', ') : t(data.error || 'auth.error'));
       } else {
         setDone(true);
       }

@@ -43,7 +43,7 @@ export async function GET() {
     return NextResponse.json(safeUser(user as unknown as Record<string, unknown>));
   } catch (err) {
     safeError('GET /api/user', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }
 
@@ -73,14 +73,14 @@ export async function PUT(req: NextRequest) {
     if (body.email) {
       const normalizedEmail = String(body.email).toLowerCase().trim();
       if (normalizedEmail.length > 254 || !/^[^@]+@[^@]+\.[^@]+$/.test(normalizedEmail)) {
-        return validationError('Format email invalide');
+        return validationError('api.invalidEmail');
       }
       const newHash = hmacHash(normalizedEmail);
 
       // Check uniqueness
       const existing = await prisma.user.findUnique({ where: { emailHash: newHash } });
       if (existing && existing.id !== auth.userId) {
-        return NextResponse.json({ error: 'Cet email est deja utilise' }, { status: 409 });
+        return NextResponse.json({ error: 'api.emailInUse' }, { status: 409 });
       }
 
       updateData.email = encrypt(normalizedEmail);
@@ -101,7 +101,7 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json(safeUser(updated as unknown as Record<string, unknown>));
   } catch (err) {
     safeError('PUT /api/user', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }
 
@@ -116,6 +116,6 @@ export async function DELETE() {
     return NextResponse.json({ ok: true });
   } catch (err) {
     safeError('DELETE /api/user', err);
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+    return NextResponse.json({ error: 'api.serverError' }, { status: 500 });
   }
 }
